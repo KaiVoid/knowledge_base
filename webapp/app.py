@@ -35,10 +35,12 @@ GROUPS = [
     ("Проектирование и инженерная культура",
      ["design-patterns", "solid-clean-code", "algorithms"]),
     ("Backend-экосистема",
-     ["spring", "spring-boot", "databases-sql", "postgresql", "jpa-hibernate",
+     ["spring", "spring-boot", "databases-sql", "postgresql", "redis",
+      "cassandra", "clickhouse", "jpa-hibernate", "jooq",
       "rest-web", "build-tools", "testing"]),
     ("Распределённые системы и эксплуатация",
-     ["microservices", "messaging", "containers-devops", "security"]),
+     ["distributed-systems", "microservices", "quarkus", "messaging",
+      "containers-devops", "security"]),
 ]
 LEVEL_ORDER = {"Junior": 0, "Middle": 1, "Senior": 2}
 
