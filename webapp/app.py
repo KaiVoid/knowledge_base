@@ -450,6 +450,14 @@ aside{width:300px;min-width:300px;height:calc(100vh - 56px);overflow:auto;positi
 background:var(--panel);border-right:1px solid var(--line);padding:12px}
 aside .grp{margin-bottom:14px}
 aside .grp>h3{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 6px}
+aside .grp>h3.ghead{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-radius:7px;padding:3px 6px;margin:0 0 4px}
+aside .grp>h3.ghead:hover{background:#eef2ff;color:var(--ink)}
+aside .grp>h3.ghead .chev{font-size:9px;line-height:1;transition:transform .15s;opacity:.7}
+aside .grp.collapsed>h3.ghead .chev{transform:rotate(-90deg)}
+aside .grp.collapsed .sec{display:none}
+html[data-theme="dark"] aside .grp>h3.ghead:hover{background:#1c2742}
+html[data-theme="darcula"] aside .grp>h3.ghead:hover{background:#2f65ca33}
+html[data-theme="vscode"] aside .grp>h3.ghead:hover{background:#2a2d2e}
 aside .sec{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:7px;cursor:pointer}
 aside .sec:hover{background:#eef2ff}
 aside .sec.active{background:var(--accent);color:#fff}
@@ -571,10 +579,21 @@ html[data-theme="vscode"] .reveal{background:#3c3c3c}
 <script src="/vendor/mermaid.min.js"></script>
 <script>
 let DATA={groups:[],questions:[]}, KB=[], JD=[], tab='q', section='', jdSel='', cache={};
+let collapsed={}; try{collapsed=JSON.parse(localStorage.getItem('collapsedGroups')||'{}')||{};}catch(e){collapsed={};}
 const $=s=>document.querySelector(s);
+
+function toggleGroup(key){
+  collapsed[key]=!collapsed[key];
+  try{localStorage.setItem('collapsedGroups',JSON.stringify(collapsed));}catch(e){}
+  renderSide();
+}
 
 async function boot(){
   DATA=await (await fetch('/api/index')).json();
+  $('#side').addEventListener('click',e=>{
+    const h=e.target.closest('.ghead');
+    if(h){ e.stopPropagation(); toggleGroup(h.dataset.grp); }
+  });
   renderSide();
   render();
 }
@@ -592,15 +611,16 @@ function renderSide(){
   const s=$('#side');
   if(tab==='jd'){
     if(!jdSel && JD.length && JD[0].lessons.length) jdSel=JD[0].id+'/'+JD[0].lessons[0].id;
-    s.innerHTML=JD.map(tr=>`<div class="grp"><h3>${esc(tr.title)}</h3>`+
+    s.innerHTML=JD.map(tr=>{const key='jd:'+tr.id;
+      return `<div class="grp ${collapsed[key]?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(tr.title)}</h3>`+
       tr.lessons.map(ls=>{const id=tr.id+'/'+ls.id;
         return `<div class="sec ${jdSel===id?'active':''}" onclick="jdPick('${id}')">
-          <span>${esc(ls.title)}</span></div>`;}).join('')+'</div>').join('')
+          <span>${esc(ls.title)}</span></div>`;}).join('')+'</div>';}).join('')
       || '<div class="grp"><h3>Java-документация</h3><div class="muted">Пока пусто</div></div>';
     return;
   }
   if(tab==='kb'){
-    s.innerHTML='<div class="grp"><h3>Области знаний</h3>'+
+    s.innerHTML=`<div class="grp ${collapsed['kb:areas']?'collapsed':''}"><h3 class="ghead" data-grp="kb:areas"><span class="chev">▾</span>Области знаний</h3>`+
       KB.map(k=>`<div class="sec ${section===k.id?'active':''}" onclick="pick('${k.id}')">
         <span>${esc(k.title)}</span></div>`).join('')+'</div>';
     return;
@@ -609,7 +629,8 @@ function renderSide(){
   let h=`<div class="grp"><div class="sec ${section===''?'active':''}" onclick="pick('')">
     <span><b>Все вопросы</b></span><span class="cnt">${total}</span></div></div>`;
   for(const g of DATA.groups){
-    h+=`<div class="grp"><h3>${esc(g.title)}</h3>`;
+    const key='q:'+g.title;
+    h+=`<div class="grp ${collapsed[key]?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(g.title)}</h3>`;
     for(const sec of g.sections){
       h+=`<div class="sec ${section===sec.key?'active':''}" onclick="pick('${sec.key}')">
         <span>${esc(sec.title)}</span><span class="cnt">${sec.count}</span></div>`;
