@@ -520,6 +520,25 @@ html[data-theme="darcula"] .tok-c{color:#808080}
 html[data-theme="darcula"] .tok-n{color:#6897bb}
 html[data-theme="darcula"] .tok-a{color:#bbb529}
 html[data-theme="darcula"] .reveal{background:#45494a}
+/* тема VS Code (Dark+) */
+html[data-theme="vscode"]{--bg:#1e1e1e;--panel:#252526;--ink:#d4d4d4;--muted:#858585;
+--line:#3c3c3c;--accent:#007acc;--accent2:#1177bb;
+--jun:#388a34;--mid:#cc8400;--sen:#d13438;}
+html[data-theme="vscode"] #search,html[data-theme="vscode"] select,
+html[data-theme="vscode"] .tab{background:#3c3c3c;color:var(--ink);border-color:#3c3c3c}
+html[data-theme="vscode"] .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+html[data-theme="vscode"] .qhead:hover{background:#2a2d2e}
+html[data-theme="vscode"] aside .sec:hover{background:#2a2d2e}
+html[data-theme="vscode"] aside .sec.active{background:#094771}
+html[data-theme="vscode"] .md th{background:#2d2d2d}
+html[data-theme="vscode"] .md code{background:#2a2d2e;color:#d4d4d4}
+html[data-theme="vscode"] .md pre.code{background:#1e1e1e;color:#d4d4d4;border:1px solid #3c3c3c}
+html[data-theme="vscode"] .tok-k{color:#569cd6}
+html[data-theme="vscode"] .tok-s{color:#ce9178}
+html[data-theme="vscode"] .tok-c{color:#6a9955}
+html[data-theme="vscode"] .tok-n{color:#b5cea8}
+html[data-theme="vscode"] .tok-a{color:#dcdcaa}
+html[data-theme="vscode"] .reveal{background:#3c3c3c}
 </style>
 </head>
 <body>
@@ -542,6 +561,7 @@ html[data-theme="darcula"] .reveal{background:#45494a}
     <option value="light">☀️ Светлая</option>
     <option value="dark">🌙 Тёмная</option>
     <option value="darcula">🌑 Darcula (IntelliJ)</option>
+    <option value="vscode">🟦 VS Code (Dark+)</option>
   </select>
 </header>
 <div class="wrap">
@@ -617,7 +637,7 @@ async function renderJD(){
 function runMermaid(){
   if(!window.mermaid) return;
   const t=document.documentElement.getAttribute('data-theme');
-  const theme=(t==='dark'||t==='darcula')?'dark':'default';
+  const theme=(t==='dark'||t==='darcula'||t==='vscode')?'dark':'default';
   try{
     mermaid.initialize({startOnLoad:false, theme, securityLevel:'loose'});
     mermaid.init(undefined, document.querySelectorAll('#main .mermaid:not([data-processed])'));
@@ -686,7 +706,7 @@ function sectionTitle(k){
   return k;
 }
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-const THEMES=['light','dark','darcula'];
+const THEMES=['light','dark','darcula','vscode'];
 function applyTheme(t){
   if(!THEMES.includes(t)) t='light';
   document.documentElement.setAttribute('data-theme',t);
