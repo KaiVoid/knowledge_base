@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Локальные настройки и правила Claude Code (не для общего репозитория)
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Редакторы и IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Машинозависимый ярлык запуска (абсолютные пути, у каждого свой)
+Запустить-приложение.desktop
+
+# ОС
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Логи и временные файлы
+*.log
+*.tmp
