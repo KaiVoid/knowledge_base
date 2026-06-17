@@ -581,6 +581,16 @@ html[data-theme="vscode"] .reveal{background:#3c3c3c}
 let DATA={groups:[],questions:[]}, KB=[], JD=[], tab='q', section='', jdSel='', cache={};
 let collapsed={}; try{collapsed=JSON.parse(localStorage.getItem('collapsedGroups')||'{}')||{};}catch(e){collapsed={};}
 const $=s=>document.querySelector(s);
+let studied={}; try{studied=JSON.parse(localStorage.getItem('studied')||'{}')||{};}catch(e){studied={};}
+let autoStudy=false; try{autoStudy=localStorage.getItem('autoStudy')==='1';}catch(e){autoStudy=false;}
+function saveStudied(){try{localStorage.setItem('studied',JSON.stringify(studied));}catch(e){}}
+function isStudied(key){return !!studied[key];}
+function setStudied(key,on){ if(on){studied[key]=1;}else{delete studied[key];} saveStudied(); }
+function toggleStudied(key){ setStudied(key,!isStudied(key)); }
+function sectionStudied(secKey){
+  const qs=DATA.questions.filter(x=>x.section===secKey);
+  return qs.length>0 && qs.every(x=>isStudied('q:'+x.id));
+}
 
 function toggleGroup(key){
   collapsed[key]=!collapsed[key];
