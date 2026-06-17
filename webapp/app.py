@@ -743,13 +743,26 @@ async function render(){
 }
 function card(it){
   const lv=it.level||'none';
-  return `<div class="card" id="c-${it.id}">
+  const on=isStudied('q:'+it.id);
+  return `<div class="card ${on?'studied':''}" id="c-${it.id}">
     <div class="qhead" onclick="openQ('${it.id}')">
       <span class="qnum">#${it.num}</span>
       <span class="qtext">${esc(it.q)}</span>
       <span class="badge b-${lv}">${it.level||'—'}</span>
+      <button class="studybtn ${on?'on':''}" onclick="event.stopPropagation();markQuestion('${it.id}')">${on?'✓ Изучено':'Изучено'}</button>
     </div>
     <div class="answers"></div></div>`;
+}
+function markQuestion(id){
+  const on=!isStudied('q:'+id);
+  setStudied('q:'+id,on);
+  const c=document.getElementById('c-'+id);
+  if(c){
+    c.classList.toggle('studied',on);
+    const b=c.querySelector('.studybtn');
+    if(b){ b.classList.toggle('on',on); b.textContent=on?'✓ Изучено':'Изучено'; }
+  }
+  renderSide();
 }
 async function openQ(id){
   const c=document.getElementById('c-'+id);
