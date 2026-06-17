@@ -595,17 +595,32 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
     <option value="Senior">Senior</option>
   </select>
   <label class="chk"><input type="checkbox" id="hide" onchange="toggleHide()"> Скрыть ответы</label>
-  <select id="theme" class="theme-sel" onchange="applyTheme(this.value)" title="Тема оформления" aria-label="Тема оформления">
-    <option value="light">☀️ Светлая</option>
-    <option value="dark">🌙 Тёмная</option>
-    <option value="darcula">🌑 Darcula (IntelliJ)</option>
-    <option value="vscode">🟦 VS Code (Dark+)</option>
-  </select>
+  <button id="rpanelBtn" class="rpanel-toggle" onclick="toggleRPanel()" title="Настройки" aria-label="Настройки">⚙</button>
 </header>
 <div class="wrap">
   <aside id="side"></aside>
   <main id="main"><div class="empty">Загрузка…</div></main>
 </div>
+<div id="rpanelOverlay" class="rpanel-overlay" onclick="toggleRPanel()"></div>
+<aside id="rpanel">
+  <h2 class="rp-title">Настройки</h2>
+  <div class="rp-block">
+    <label class="rp-label" for="theme">Тема оформления</label>
+    <select id="theme" onchange="applyTheme(this.value)" aria-label="Тема оформления">
+      <option value="light">☀️ Светлая</option>
+      <option value="dark">🌙 Тёмная</option>
+      <option value="darcula">🌑 Darcula (IntelliJ)</option>
+      <option value="vscode">🟦 VS Code (Dark+)</option>
+    </select>
+  </div>
+  <div class="rp-block">
+    <label class="chk"><input type="checkbox" id="autoStudy" onchange="toggleAutoStudy()"> Автоизучение</label>
+    <div class="rp-hint">Помечать «изучено» при доскролле страницы до конца.</div>
+  </div>
+  <div class="rp-block">
+    <button class="rp-reset" onclick="resetStudied()">Сбросить просмотренное</button>
+  </div>
+</aside>
 <script src="/vendor/mermaid.min.js"></script>
 <script>
 let DATA={groups:[],questions:[]}, KB=[], JD=[], tab='q', section='', jdSel='', cache={};
@@ -627,6 +642,8 @@ function toggleGroup(key){
   try{localStorage.setItem('collapsedGroups',JSON.stringify(collapsed));}catch(e){}
   renderSide();
 }
+function rpClose(){ document.getElementById('rpanel').classList.remove('open'); document.getElementById('rpanelOverlay').classList.remove('open'); }
+function toggleRPanel(){ document.getElementById('rpanel').classList.toggle('open'); document.getElementById('rpanelOverlay').classList.toggle('open'); }
 
 async function boot(){
   DATA=await (await fetch('/api/index')).json();
@@ -634,6 +651,8 @@ async function boot(){
     const h=e.target.closest('.ghead');
     if(h){ e.stopPropagation(); toggleGroup(h.dataset.grp); }
   });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') rpClose(); });
+  document.getElementById('autoStudy').checked=autoStudy;
   renderSide();
   render();
 }
