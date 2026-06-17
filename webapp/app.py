@@ -673,14 +673,14 @@ function renderSide(){
     s.innerHTML=JD.map(tr=>{const key='jd:'+tr.id;
       return `<div class="grp ${collapsed[key]?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(tr.title)}</h3>`+
       tr.lessons.map(ls=>{const id=tr.id+'/'+ls.id;
-        return `<div class="sec ${jdSel===id?'active':''}" onclick="jdPick('${id}')">
+        return `<div class="sec ${jdSel===id?'active':''} ${isStudied('jd:'+id)?'studied':''}" onclick="jdPick('${id}')">
           <span>${esc(ls.title)}</span></div>`;}).join('')+'</div>';}).join('')
       || '<div class="grp"><h3>Java-документация</h3><div class="muted">Пока пусто</div></div>';
     return;
   }
   if(tab==='kb'){
     s.innerHTML=`<div class="grp ${collapsed['kb:areas']?'collapsed':''}"><h3 class="ghead" data-grp="kb:areas"><span class="chev">▾</span>Области знаний</h3>`+
-      KB.map(k=>`<div class="sec ${section===k.id?'active':''}" onclick="pick('${k.id}')">
+      KB.map(k=>`<div class="sec ${section===k.id?'active':''} ${isStudied('kb:'+k.id)?'studied':''}" onclick="pick('${k.id}')">
         <span>${esc(k.title)}</span></div>`).join('')+'</div>';
     return;
   }
@@ -691,7 +691,7 @@ function renderSide(){
     const key='q:'+g.title;
     h+=`<div class="grp ${collapsed[key]?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(g.title)}</h3>`;
     for(const sec of g.sections){
-      h+=`<div class="sec ${section===sec.key?'active':''}" onclick="pick('${sec.key}')">
+      h+=`<div class="sec ${section===sec.key?'active':''} ${sectionStudied(sec.key)?'studied':''}" onclick="pick('${sec.key}')">
         <span>${esc(sec.title)}</span><span class="cnt">${sec.count}</span></div>`;
     }
     h+='</div>';
@@ -768,6 +768,11 @@ function markQuestion(id){
   renderSide();
 }
 function markPage(key){ toggleStudied(key); render(); renderSide(); }
+function resetStudied(){
+  if(!confirm('Сбросить все отметки «изучено»?')) return;
+  studied={}; saveStudied();
+  render(); renderSide();
+}
 function scheduleAuto(){ if(autoStudy) requestAnimationFrame(maybeAutoStudy); }
 async function openQ(id){
   const c=document.getElementById('c-'+id);
