@@ -711,7 +711,10 @@ async function renderJD(){
   let lesson=trail&&trail.lessons.find(l=>jdSel===trail.id+'/'+l.id);
   const d= cache['jd:'+jdSel] || (cache['jd:'+jdSel]=await (await fetch('/api/jddoc?id='+encodeURIComponent(jdSel))).json());
   const crumb=trail?esc(trail.title)+' · '+esc(lesson?lesson.title:''):'';
-  m.innerHTML=`<div class="crumb">${crumb}</div><div class="kb"><div class="md">${(d&&d.html)||'<div class="empty">Нет данных</div>'}</div></div>`;
+  const _k='jd:'+jdSel, _on=isStudied(_k);
+  m.innerHTML=`<div class="page-head"><div class="crumb">${crumb}</div>
+    <button class="studybtn kb-studybtn ${_on?'on':''}" onclick="markPage('${_k}')">${_on?'✓ Изучено':'Изучено'}</button></div>
+    <div class="kb"><div class="md">${(d&&d.html)||'<div class="empty">Нет данных</div>'}</div></div>`;
   runMermaid();
 }
 function runMermaid(){
@@ -764,6 +767,8 @@ function markQuestion(id){
   }
   renderSide();
 }
+function markPage(key){ toggleStudied(key); render(); renderSide(); }
+function scheduleAuto(){ if(autoStudy) requestAnimationFrame(maybeAutoStudy); }
 async function openQ(id){
   const c=document.getElementById('c-'+id);
   if(c.classList.contains('open')){ c.classList.remove('open'); return; }
@@ -790,9 +795,14 @@ function renderKB(){
   const item = KB.find(k=>k.id===section) || KB[0];
   if(!item){ m.innerHTML='<div class="empty">Нет данных</div>'; return; }
   if(!section) section=item.id;
-  m.innerHTML=`<div class="kb"><h2 style="margin-top:0">${esc(item.title)}</h2>
+  const key='kb:'+item.id, on=isStudied(key);
+  m.innerHTML=`<div class="kb"><div class="page-head">
+    <h2 style="margin-top:0">${esc(item.title)}</h2>
+    <button class="studybtn kb-studybtn ${on?'on':''}" onclick="markPage('${key}')">${on?'✓ Изучено':'Изучено'}</button>
+    </div>
     ${item.level?`<div class="src">Уровень: ${esc(item.level)}</div>`:''}
     <div class="md">${item.html}</div></div>`;
+  scheduleAuto();
 }
 function sectionTitle(k){
   for(const g of DATA.groups) for(const s of g.sections) if(s.key===k) return s.title;
