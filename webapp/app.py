@@ -653,6 +653,7 @@ async function boot(){
   });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') rpClose(); });
   document.getElementById('autoStudy').checked=autoStudy;
+  window.addEventListener('scroll', onScrollAuto, {passive:true});
   renderSide();
   render();
 }
@@ -716,6 +717,7 @@ async function renderJD(){
     <button class="studybtn kb-studybtn ${_on?'on':''}" onclick="markPage('${_k}')">${_on?'✓ Изучено':'Изучено'}</button></div>
     <div class="kb"><div class="md">${(d&&d.html)||'<div class="empty">Нет данных</div>'}</div></div>`;
   runMermaid();
+  scheduleAuto();
 }
 function runMermaid(){
   if(!window.mermaid) return;
@@ -743,6 +745,7 @@ async function render(){
   if(!list.length){ m.innerHTML=h+'<div class="empty">Ничего не найдено</div>'; return; }
   h+=list.map(it=>card(it)).join('');
   m.innerHTML=h;
+  scheduleAuto();
 }
 function card(it){
   const lv=it.level||'none';
@@ -774,6 +777,47 @@ function resetStudied(){
   render(); renderSide();
 }
 function scheduleAuto(){ if(autoStudy) requestAnimationFrame(maybeAutoStudy); }
+function toggleAutoStudy(){
+  autoStudy=document.getElementById('autoStudy').checked;
+  try{localStorage.setItem('autoStudy',autoStudy?'1':'0');}catch(e){}
+  if(autoStudy) scheduleAuto();
+}
+let _asTick=false;
+function onScrollAuto(){
+  if(!autoStudy||_asTick) return;
+  _asTick=true;
+  requestAnimationFrame(()=>{ _asTick=false; maybeAutoStudy(); });
+}
+function maybeAutoStudy(){
+  if(!autoStudy) return;
+  const vh=window.innerHeight||document.documentElement.clientHeight;
+  if(tab==='kb'||tab==='jd'){
+    const main=$('#main'); if(!main) return;
+    const r=main.getBoundingClientRect();
+    if(r.bottom<=vh+4){
+      const key = tab==='kb' ? ('kb:'+section) : ('jd:'+jdSel);
+      if(key && key!=='kb:' && key!=='jd:' && !isStudied(key)){
+        setStudied(key,true); render(); renderSide();
+      }
+    }
+  } else {
+    let changed=false;
+    document.querySelectorAll('.card.open').forEach(c=>{
+      const r=c.getBoundingClientRect();
+      if(r.bottom<=vh+4){
+        const id=c.id.slice(2);
+        if(!isStudied('q:'+id)){
+          setStudied('q:'+id,true);
+          c.classList.add('studied');
+          const b=c.querySelector('.studybtn');
+          if(b){ b.classList.add('on'); b.textContent='✓ Изучено'; }
+          changed=true;
+        }
+      }
+    });
+    if(changed) renderSide();
+  }
+}
 async function openQ(id){
   const c=document.getElementById('c-'+id);
   if(c.classList.contains('open')){ c.classList.remove('open'); return; }
@@ -790,6 +834,7 @@ async function openQ(id){
   }
   if($('#hide').checked) box.classList.add('hidden');
   c.classList.add('open');
+  scheduleAuto();
 }
 function toggleHide(){
   const on=$('#hide').checked;
