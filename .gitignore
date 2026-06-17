@@ -10,6 +10,9 @@ env/
 .claude/settings.local.json
 CLAUDE.local.md
 
+# Рабочая документация superpowers (планы/спеки) — только локально
+docs/superpowers/
+
 # Редакторы и IDE
 .idea/
 .vscode/
