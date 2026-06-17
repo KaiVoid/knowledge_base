@@ -547,6 +547,36 @@ html[data-theme="vscode"] .tok-c{color:#6a9955}
 html[data-theme="vscode"] .tok-n{color:#b5cea8}
 html[data-theme="vscode"] .tok-a{color:#dcdcaa}
 html[data-theme="vscode"] .reveal{background:#3c3c3c}
+/* правая панель настроек */
+.rpanel-toggle{margin-left:auto;cursor:pointer;border:1px solid var(--line);background:var(--panel);
+color:var(--ink);border-radius:8px;padding:6px 10px;font-size:16px;line-height:1}
+.rpanel-toggle:hover{background:#eef2ff}
+#rpanel{position:fixed;top:0;right:0;height:100vh;width:300px;max-width:85vw;background:var(--panel);
+border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(0,0,0,.12);z-index:20;padding:18px;
+overflow:auto;transform:translateX(100%);transition:transform .22s ease}
+#rpanel.open{transform:translateX(0)}
+.rpanel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:15;opacity:0;visibility:hidden;
+transition:opacity .22s}
+.rpanel-overlay.open{opacity:1;visibility:visible}
+.rp-title{font-size:16px;margin:0 0 14px}
+.rp-block{margin-bottom:16px;display:flex;flex-direction:column;gap:6px}
+.rp-label{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+#rpanel select{width:100%}
+.rp-hint{font-size:12px;color:var(--muted)}
+.rp-reset{padding:8px 12px;border:1px solid var(--sen);color:var(--sen);background:var(--panel);
+border-radius:8px;cursor:pointer;font-size:14px}
+.rp-reset:hover{background:var(--sen);color:#fff}
+/* кнопка «Изучено» */
+.studybtn{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+border-radius:7px;padding:4px 10px;font-size:12px;white-space:nowrap;align-self:center}
+.studybtn:hover{border-color:var(--jun);color:var(--jun)}
+.studybtn.on{background:var(--jun);color:#fff;border-color:var(--jun)}
+.kb-studybtn{margin-left:10px}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+/* подсветка изученного */
+aside .sec.studied{border-left:3px solid var(--jun)}
+.card.studied{border-left:3px solid var(--jun)}
+html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
 </style>
 </head>
 <body>
