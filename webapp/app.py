@@ -498,7 +498,6 @@ color:var(--accent);border-radius:8px;cursor:pointer;background:#fff}
 .tok-k{color:#93c5fd}.tok-s{color:#86efac}.tok-c{color:#94a3b8;font-style:italic}
 .tok-n{color:#fca5a5}.tok-a{color:#fcd34d}
 .kb .md h2{border-bottom:1px solid var(--line);padding-bottom:4px}
-.theme-sel{margin-left:6px;cursor:pointer}
 /* тёмная тема */
 html[data-theme="dark"]{--bg:#0f172a;--panel:#111a2e;--ink:#e5e7eb;--muted:#9aa6b8;
 --line:#283651;--accent:#3b82f6;--accent2:#60a5fa;}
@@ -662,7 +661,7 @@ function setTab(t){
   document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.dataset.tab===t));
   $('#search').style.display = t==='q'?'':'none';
   $('#level').style.display = t==='q'?'':'none';
-  document.querySelector('label.chk').style.display = t==='q'?'':'none';
+  document.getElementById('hide').closest('label.chk').style.display = t==='q'?'':'none';
   if(t==='kb' && !KB.length){ fetch('/api/kb').then(r=>r.json()).then(d=>{KB=d;renderSide();render();}); }
   else if(t==='jd' && !JD.length){ fetch('/api/jd').then(r=>r.json()).then(d=>{JD=d;renderSide();render();}); }
   else { renderSide(); render(); }
