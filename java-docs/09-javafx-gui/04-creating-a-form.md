@@ -9,6 +9,7 @@
 >
 > В этом уроке вы с помощью JavaFX построите форму входа (login form), показанную на рисунке 4-1.
 
+<!-- original: assets/09-javafx-gui/login-form.png | Рисунок 4-1. Форма входа в JavaFX -->
 ```mermaid
 flowchart TB
     title["Welcome (заголовок)"]

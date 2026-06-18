@@ -17,6 +17,7 @@
 экземпляры класса `Group`, а неветвящиеся узлы (их также называют **листовыми**, *leaf nodes*) —
 экземпляры классов `Rectangle` и `Circle`.
 
+<!-- original: assets/09-javafx-gui/colorful-circles-scenegraph.png | Граф сцены приложения ColorfulCircles -->
 ```mermaid
 flowchart TB
     Root["root: Group"]

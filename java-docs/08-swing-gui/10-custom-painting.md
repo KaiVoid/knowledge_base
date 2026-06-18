@@ -490,6 +490,7 @@ class RedSquare{
 
 Конвейер отрисовки `JComponent`: метод `paint` последовательно вызывает три метода.
 
+<!-- original: none | Oracle описывает порядок вызовов paint/paintComponent/paintBorder/paintChildren текстом, без отдельной диаграммы -->
 ```mermaid
 flowchart TB
     P["paint(Graphics g)<br/>(определён в java.awt.Component)"]
@@ -511,6 +512,7 @@ flowchart TB
 
 Делегирование отрисовки делегату UI для непрозрачного (*opaque*) компонента:
 
+<!-- original: none | Oracle описывает цепочку paint→paintComponent→ui.update→ui.paint текстом; схема составлена автором -->
 ```mermaid
 flowchart TB
     A["paint()"] --> B["paintComponent()"]

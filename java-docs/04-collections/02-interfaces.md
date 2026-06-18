@@ -17,6 +17,7 @@
 представления и образуют основу Java Collections Framework. Как видно ниже, основные интерфейсы
 коллекций образуют иерархию.
 
+<!-- original: assets/04-collections/core-interfaces.gif | Иерархия основных интерфейсов коллекций (официальный рисунок Oracle) -->
 ```mermaid
 classDiagram
     direction LR
@@ -673,6 +674,7 @@ for (ListIterator<Type> it = list.listIterator(list.size()); it.hasPrevious(); )
 который вернул бы `next`. `n+1` допустимых значений `index` соответствуют `n+1` промежуткам между
 элементами — от промежутка перед первым элементом до промежутка после последнего.
 
+<!-- original: assets/04-collections/list-cursor.gif | Пять возможных позиций курсора ListIterator в списке из четырёх элементов (официальный рисунок Oracle) -->
 ```mermaid
 flowchart LR
     P0(("0")) --> E1["Элемент(0)"]

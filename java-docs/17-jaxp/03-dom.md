@@ -231,6 +231,7 @@ dbf.setExpandEntityReferences(!createEntityRefs);
 Иерархия узлов DOM на примере фрагмента `<sentence>This is an <bold>important</bold>
 idea.</sentence>` и сопутствующих атрибутов/сущностей:
 
+<!-- original: none | Авторская схема дерева узлов DOM; оригинальная фигура на страницах Oracle отсутствует -->
 ```mermaid
 flowchart TB
     Doc["Document<br/>(#document)<br/>корень DOM"]

@@ -39,6 +39,7 @@
 содержат другие объекты. Все эти наблюдения из реального мира переносятся в мир
 объектно-ориентированного программирования.
 
+<!-- original: assets/02-learning-the-language/oop-object.gif | Программный объект: состояние скрыто внутри, методы окружают его (Oracle) -->
 ```mermaid
 flowchart TB
     subgraph OBJ["Программный объект"]
@@ -65,6 +66,7 @@ flowchart TB
 
 Рассмотрим, например, велосипед:
 
+<!-- original: assets/02-learning-the-language/oop-bicycle-object.gif | Велосипед как программный объект с полями и методами (Oracle) -->
 ```mermaid
 flowchart TB
     subgraph BIKE["Велосипед как программный объект"]
@@ -205,6 +207,7 @@ cadence:40 speed:20 gear:3
 программирования Java каждый класс может иметь один непосредственный суперкласс, а у каждого
 суперкласса потенциально может быть неограниченное число **подклассов** (*subclasses*):
 
+<!-- original: assets/02-learning-the-language/oop-bike-hierarchy.gif | Иерархия классов велосипедов: Bicycle как суперкласс (Oracle) -->
 ```mermaid
 flowchart TB
     Bicycle["Bicycle<br/>(суперкласс)"]

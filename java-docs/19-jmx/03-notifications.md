@@ -19,6 +19,7 @@ API JMX определяет механизм, позволяющий компо
 
 ### Схема: источник уведомлений → слушатель
 
+<!-- original: none | Авторская схема механизма уведомлений JMX; оригинальная фигура на странице Oracle отсутствует -->
 ```mermaid
 flowchart LR
     MBean["Управляемый бин Hello<br/>(источник уведомлений)<br/>extends NotificationBroadcasterSupport"]

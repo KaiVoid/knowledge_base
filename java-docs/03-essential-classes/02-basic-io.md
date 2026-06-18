@@ -79,6 +79,7 @@ public class CopyBytes {
 `CopyBytes` почти всё время проводит в простом цикле, считывая входной поток и записывая в
 выходной поток по одному байту за раз. Схема такого простого ввода-вывода через байтовые потоки:
 
+<!-- original: assets/03-essential-classes/byteStream.gif | Схема простого байтового ввода-вывода: чтение и запись побайтно -->
 ```mermaid
 flowchart LR
     F1["Файл<br/>xanadu.txt"] --> IS["FileInputStream<br/>(метод read)"]
@@ -271,6 +272,7 @@ outputStream = new BufferedWriter(new FileWriter("characteroutput.txt"));
 
 Схема конвейера обёрток (буферизованный поток поверх файлового потока):
 
+<!-- original: none | Конвейер буферизованного потока — авторская схема, Oracle не публикует отдельную диаграмму для BufferedReader -->
 ```mermaid
 flowchart LR
     F["Файл<br/>xanadu.txt"] --> FR["FileReader<br/>(физический ввод-вывод,<br/>перевод байт↔символ)"]
@@ -546,6 +548,7 @@ public class Format {
 
 Структура спецификатора формата (на примере `%1$+020.10f`):
 
+<!-- original: assets/03-essential-classes/io-spec.gif | Элементы спецификатора формата: индекс аргумента, флаги, ширина, точность, преобразование -->
 ```mermaid
 flowchart LR
     P["%"] --> AI["1$<br/>индекс<br/>аргумента"]
@@ -826,6 +829,7 @@ try {
 **a** — то есть и остальные четыре объекта этой сети. Когда **a** считывается обратно методом
 `readObject`, остальные четыре объекта тоже считываются, и все исходные ссылки сохраняются.
 
+<!-- original: assets/03-essential-classes/io-trav.gif | Граф объектов при сериализации: writeObject(a) записывает всю сеть ссылок -->
 ```mermaid
 flowchart TD
     A["a"] --> B["b"]
@@ -1743,6 +1747,7 @@ long avail = store.getUsableSpace() / 1024;
 Существует широкий набор методов файлового ввода-вывода. Их можно упорядочить от менее сложных к
 более сложным:
 
+<!-- original: assets/03-essential-classes/io-fileiomethods.gif | Спектр методов файлового ввода-вывода: от простых (readAllBytes) до продвинутых (FileChannel) -->
 ```mermaid
 flowchart LR
     A["Простые случаи:<br/>readAllBytes,<br/>readAllLines, write"] --> B["Потоки/строки:<br/>newBufferedReader,<br/>newBufferedWriter,<br/>newInputStream,<br/>newOutputStream"]

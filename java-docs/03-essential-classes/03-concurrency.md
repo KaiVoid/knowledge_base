@@ -74,6 +74,7 @@ API из пакетов `java.util.concurrent`.
 всего с одним потоком, называемым **главным потоком** (*main thread*). Этот поток способен
 создавать дополнительные потоки, что мы продемонстрируем в следующем разделе.
 
+<!-- original: none | Схема процессов и потоков — авторская, Oracle не публикует диаграмму для этой темы -->
 ```mermaid
 flowchart TB
     subgraph P1["Процесс 1 (своё пространство памяти)"]
@@ -777,6 +778,7 @@ public class Deadlock {
 `bowBack`. Ни одна из блокировок никогда не закончится, потому что каждый поток ждёт, пока другой
 выйдет из `bow`.
 
+<!-- original: none | Схема взаимоблокировки — авторская, Oracle не публикует диаграмму для Deadlock -->
 ```mermaid
 flowchart LR
     subgraph A["Поток 1 (Alphonse)"]
@@ -1502,6 +1504,7 @@ pools*), которые состоят из **рабочих потоков** (*
 работы и может выполнять процессы
 [`ForkJoinTask`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinTask.html).
 
+<!-- original: none | Fork/Join алгоритм — авторская схема, Oracle не публикует диаграмму для ForkJoin -->
 ```mermaid
 flowchart TB
     Task["Задача целиком<br/>(весь объём работы)"]

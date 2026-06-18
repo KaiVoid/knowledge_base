@@ -16,6 +16,7 @@ API JavaFX лежит движок (*engine*), который выполняет
 и веб-движок (*web engine*). Хотя эти компоненты не предоставляются публично, их описания помогут
 вам лучше понять, что приводит в действие приложение JavaFX.
 
+<!-- original: assets/09-javafx-gui/jfx-architecture.png | Рисунок 2-1. Архитектурные компоненты платформы JavaFX -->
 ```mermaid
 flowchart TB
     subgraph Top["Публичные Java API JavaFX (верхний слой)"]

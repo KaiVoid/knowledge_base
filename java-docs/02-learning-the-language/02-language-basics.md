@@ -1047,6 +1047,7 @@ class BlockDemo {
 - **операторы цикла** (*looping*): `for`, `while`, `do-while`;
 - **операторы перехода** (*branching*): `break`, `continue`, `return`.
 
+<!-- original: none | авторская классификационная схема, в оригинале Oracle только текст -->
 ```mermaid
 flowchart TB
     A["Операторы управления потоком"]

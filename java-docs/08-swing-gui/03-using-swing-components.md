@@ -111,6 +111,7 @@ frame.setJMenuBar(greenMenuBar);
 
 ### Иерархия контейнера верхнего уровня
 
+<!-- original: assets/08-swing-gui/root-pane-hierarchy.gif | Схема основных панелей корневой панели JFrame: слоистая панель, строка меню, панель содержимого, стеклянная панель (Oracle Tutorial) -->
 ```mermaid
 flowchart TB
     Frame["Контейнер верхнего уровня<br/>(JFrame / JDialog / JApplet)"]
@@ -130,6 +131,7 @@ flowchart TB
 
 Класс `JComponent` расширяет `Container`, который, в свою очередь, расширяет `Component`.
 
+<!-- original: none | Oracle не публикует отдельную схему иерархии Component→Container→JComponent -->
 ```mermaid
 flowchart TB
     Component["Component"] --> Container["Container"]
@@ -187,6 +189,7 @@ flowchart TB
 Все текстовые компоненты Swing наследуются от суперкласса `JTextComponent`, который даёт
 «гибко настраиваемую и мощную основу для работы с текстом».
 
+<!-- original: assets/08-swing-gui/text-component-hierarchy.png | Иерархия текстовых компонентов Swing: JTextComponent и его подклассы (Oracle Tutorial) -->
 ```mermaid
 flowchart TB
     JTC["JTextComponent"]

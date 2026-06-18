@@ -173,6 +173,7 @@ DAC).
 Чтобы понять понятие микшера в Java Sound API, полезно представить себе физический микшерный пульт —
 такой, какие используются на живых концертах и в студиях звукозаписи.
 
+<!-- original: assets/25-sound/mixing-console.gif | Физический микшерный пульт: входные полосы, шина эффектов (реверб), финальное сведение на выход -->
 ```mermaid
 flowchart TB
     subgraph CONSOLE["Физический микшерный пульт"]
@@ -261,6 +262,7 @@ API.
 Рассмотрим теперь некоторые конкретные виды линий и микшеров. Следующая схема показывает разные типы
 линий в простой системе аудиовыхода, которая могла бы быть частью реализации Java Sound API:
 
+<!-- original: assets/25-sound/audio-output-lines.gif | Возможная конфигурация линий для аудиовыхода: Clip и SourceDataLine → микшер (реверб/gain/pan) → выходные порты -->
 ```mermaid
 flowchart LR
     subgraph MIXER_OUT["Микшер аудиовыхода"]
@@ -299,6 +301,7 @@ flowchart LR
 
 Простая система аудиовхода может выглядеть схоже:
 
+<!-- original: assets/25-sound/audio-input-lines.gif | Возможная конфигурация линий для аудиовхода: входные порты → микшер (gain/pan) → TargetDataLine → приложение -->
 ```mermaid
 flowchart LR
     PORTIN["Входные порты (Port):<br/>микрофон · линейный вход"] --> MIXER_IN
@@ -327,6 +330,7 @@ flowchart LR
 интерфейса [`Line`](https://docs.oracle.com/javase/8/docs/api/javax/sound/sampled/Line.html). Иерархия
 интерфейсов показана ниже.
 
+<!-- original: assets/25-sound/line-interface-hierarchy.gif | Иерархия интерфейсов линий Java Sound API: Line → Port, Mixer, DataLine → SourceDataLine, TargetDataLine, Clip -->
 ```mermaid
 classDiagram
     class Line {

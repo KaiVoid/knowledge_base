@@ -415,6 +415,7 @@ int getMaxReceivers()
 проигрываемые секвенсором, состоят из трёхуровневой иерархии объектов: `Sequence`, `Track` и
 `MidiEvent`.
 
+<!-- original: none | Авторская схема трёхуровневой иерархии Sequence/Track/MidiEvent; страница Oracle не содержит соответствующего рисунка -->
 ```mermaid
 flowchart TD
     Seq["Sequence<br/>(глобальный тайминг + коллекция дорожек)"]

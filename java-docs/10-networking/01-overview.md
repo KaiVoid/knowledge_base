@@ -62,6 +62,7 @@
 передачей (*Transmission Control Protocol*, TCP), либо протокол пользовательских датаграмм
 (*User Datagram Protocol*, UDP), как показано на схеме ниже.
 
+<!-- original: assets/10-networking/tcp-udp-layers.gif | Схема взаимодействия двух компьютеров через TCP/UDP -->
 ```mermaid
 flowchart TB
     subgraph C1["Компьютер A"]
@@ -157,6 +158,7 @@ UDP, в отличие от TCP, не основан на соединении.
 предназначенных этому порту. После этого клиент может «встретиться» с сервером на его порту, как
 показано ниже.
 
+<!-- original: assets/10-networking/port-routing.gif | Клиент встречается с сервером на порту — маршрутизация данных -->
 ```mermaid
 flowchart LR
     Client["Клиент"] -->|"данные + IP-адрес + порт"| Net(("Сеть"))
@@ -185,6 +187,7 @@ flowchart LR
 протокол TCP. Классы `DatagramPacket`, `DatagramSocket` и `MulticastSocket` предназначены для
 работы с UDP.
 
+<!-- original: none | Классовая иерархия java.net — авторская схема, в источнике не изображена -->
 ```mermaid
 flowchart TB
     subgraph TCPg["Классы поверх TCP"]

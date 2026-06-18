@@ -103,6 +103,7 @@ Listeners* — внутри пакета `events`, и так далее. За д
 
 Окно `HelloWorldSwing` представляет собой простой кадр (*frame*) с надписью «Hello World»:
 
+<!-- original: none | Скриншот запущенного приложения — не иллюстрирует структуру компонентов -->
 ```mermaid
 flowchart TB
     F["Окно JFrame · заголовок «HelloWorldSwing»"]

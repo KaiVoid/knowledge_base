@@ -921,6 +921,7 @@ myDeck.sort(
 непосредственно от `Object`, другие классы порождаются от некоторых из них и так далее, образуя
 иерархию классов.
 
+<!-- original: assets/02-learning-the-language/inheritance-object-hierarchy.gif | Все классы Java — потомки Object (Oracle) -->
 ```mermaid
 flowchart TB
     Object["Object<br/>(java.lang)"]
@@ -1013,6 +1014,7 @@ public class MountainBike extends Bicycle {
 выполнять всю эту работу. Это было бы особенно ценно, если бы методы класса `Bicycle` были сложными
 и потребовали значительного времени на отладку.
 
+<!-- original: none | авторская детализированная схема MountainBike extends Bicycle; на странице Oracle subclasses.html нет точной фигуры для этой диаграммы -->
 ```mermaid
 flowchart TB
     Bicycle["Bicycle<br/>поля: cadence, gear, speed<br/>методы: setCadence, setGear,<br/>applyBrake, speedUp"]
@@ -1931,6 +1933,7 @@ private-конкретные методы. В интерфейсах все по
 же абстрактного родительского объекта (например, `GraphicObject`), как показано на следующей
 диаграмме.
 
+<!-- original: assets/02-learning-the-language/inheritance-graphic-object.gif | Иерархия GraphicObject: абстрактный суперкласс и подклассы (Oracle) -->
 ```mermaid
 flowchart TB
     GraphicObject["GraphicObject (абстрактный)<br/>поля: x, y<br/>moveTo()<br/>abstract draw()<br/>abstract resize()"]

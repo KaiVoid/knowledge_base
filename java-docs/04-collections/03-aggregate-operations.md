@@ -73,6 +73,7 @@ double average = roster
 
 ### Схема конвейера потока
 
+<!-- original: none | Авторская блок-схема конвейера потока; Oracle не публикует подобный рисунок на странице Aggregate Operations -->
 ```mermaid
 flowchart LR
     SRC["Источник<br/>(коллекция · массив ·<br/>функция-генератор · канал I/O)"]

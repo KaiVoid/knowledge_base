@@ -33,6 +33,7 @@ byte mask = 0x7f;
 
 Все числовые классы-обёртки являются подклассами абстрактного класса `Number`:
 
+<!-- original: assets/02-learning-the-language/numbers-hierarchy.png | Иерархия числовых классов-обёрток, все наследуют Number (Oracle) -->
 ```mermaid
 flowchart TB
     N["Number (абстрактный)"]

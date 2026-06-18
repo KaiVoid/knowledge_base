@@ -90,6 +90,7 @@
 \*\* Класс `Duration` не хранит эти единицы напрямую, но предоставляет методы преобразования в дни,
 часы и минуты.
 
+<!-- original: none | Авторская классификационная схема; Oracle не публикует подобный рисунок в обзоре Date-Time API -->
 ```mermaid
 flowchart TB
     subgraph human["Человеческое время"]
@@ -758,6 +759,7 @@ ARRIVING: Jul 21 2013  10:20 PM (Asia/Tokyo)
 `ZonedDateTime`, а не в терминах интерфейса `Temporal`. Это в точности как объявлять переменную типа
 `String`, а не типа `CharSequence`.
 
+<!-- original: none | Авторская схема пакета java.time.temporal; Oracle не публикует подобный рисунок на странице Temporal пакета -->
 ```mermaid
 flowchart TB
     TA["TemporalAccessor<br/>(только чтение)"] --> T["Temporal<br/>(чтение + арифметика)"]

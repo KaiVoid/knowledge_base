@@ -102,6 +102,7 @@ public class HelloWorld extends Application {
 (`Scene`); корневым узлом `Scene` является `StackPane`, у которого есть один дочерний узел —
 кнопка (`Button`).
 
+<!-- original: assets/09-javafx-gui/hello-world-scenegraph.png | Рисунок 3-1. Граф сцены приложения Hello World -->
 ```mermaid
 flowchart TB
     Stage["Сцена (Stage)<br/>контейнер верхнего уровня"]

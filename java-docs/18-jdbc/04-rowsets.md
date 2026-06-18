@@ -23,6 +23,7 @@ Oracle определила пять интерфейсов `RowSet` для на
 отсоединяемые (*disconnected*), причём `CachedRowSet` является надынтерфейсом (*superinterface*)
 для них всех.
 
+<!-- original: none | Авторская схема иерархии интерфейсов RowSet; оригинальная фигура на странице Oracle отсутствует -->
 ```mermaid
 flowchart TD
     RS["ResultSet"] --> RowSet["RowSet (JavaBeans-компонент)"]

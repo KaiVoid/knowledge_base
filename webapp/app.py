@@ -129,11 +129,44 @@ def _cells(line):
     return [c.strip() for c in line.split("|")]
 
 
+# Регулярное выражение для директивы сравнения диаграмм: <!-- original: ... -->
+_ORIG_RE = re.compile(r'^\s*<!--\s*original:\s*(.*?)\s*-->\s*$')
+
+
+def _parse_original(payload):
+    """payload: 'none' | 'none | note' | 'assets/..png' | 'assets/..png | caption'."""
+    parts = payload.split("|", 1)
+    target = parts[0].strip()
+    caption = parts[1].strip() if len(parts) > 1 else ""
+    return {"none": target.lower() == "none", "path": target, "caption": caption}
+
+
+def _mermaid_html(buf, orig):
+    """Формирует HTML Mermaid-блока: одиночный, с бейджем или виджет сравнения."""
+    diagram = ('<div class="mermaid">%s</div>'
+               % html.escape("\n".join(buf), quote=False))
+    if orig is None:
+        return diagram
+    if orig["none"]:
+        return ('<figure class="cmp cmp-solo">'
+                '<figcaption class="cmp-cap cmp-cap--none">'
+                'Сгенерировано · без оригинала</figcaption>'
+                '%s</figure>' % diagram)
+    src = "/" + orig["path"].lstrip("/")
+    img = ('<div class="cmp-col"><figcaption class="cmp-cap">Оригинал</figcaption>'
+           '<img src="%s" alt="%s" loading="lazy"></div>'
+           % (html.escape(src, quote=True), html.escape(orig["caption"], quote=True)))
+    gen = ('<div class="cmp-col"><figcaption class="cmp-cap">Сгенерировано</figcaption>'
+           '%s</div>' % diagram)
+    return '<figure class="cmp">%s%s</figure>' % (img, gen)
+
+
 def render_md(md):
     lines = md.split("\n")
     out = []
     i, n = 0, len(lines)
     para = []
+    pending_orig = [None]  # список-обёртка, чтобы менять из вложенной flush_para
 
     def flush_para():
         if para:
@@ -143,6 +176,14 @@ def render_md(md):
     while i < n:
         line = lines[i]
         stripped = line.strip()
+
+        # директива сравнения диаграмм: <!-- original: ... -->
+        m_orig = _ORIG_RE.match(line)
+        if m_orig:
+            flush_para()
+            pending_orig[0] = _parse_original(m_orig.group(1))
+            i += 1
+            continue
 
         # fenced code
         if stripped.startswith("```"):
@@ -157,12 +198,18 @@ def render_md(md):
             if lang == "mermaid":
                 # Mermaid читает textContent узла; экранируем, чтобы <br/> и стрелки
                 # попали в исходник диаграммы, а не в разметку страницы.
-                out.append('<div class="mermaid">%s</div>'
-                           % html.escape("\n".join(buf), quote=False))
+                out.append(_mermaid_html(buf, pending_orig[0]))
+                pending_orig[0] = None
             else:
+                pending_orig[0] = None
                 out.append('<pre class="code"><code>%s</code></pre>'
                            % highlight_code("\n".join(buf), lang))
             continue
+
+        # любая непустая строка (не fenced, не директива) отвязывает pending_orig
+        if stripped and not stripped.startswith("```"):
+            if pending_orig[0] is not None and not _ORIG_RE.match(line):
+                pending_orig[0] = None
 
         # table
         if "|" in line and i + 1 < n and _SEP_RE.match(lines[i + 1]):
@@ -576,6 +623,14 @@ border-radius:7px;padding:4px 10px;font-size:12px;white-space:nowrap;align-self:
 aside .sec.studied{border-left:3px solid var(--jun)}
 .card.studied{border-left:3px solid var(--jun)}
 html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
+/* виджет сравнения оригинал/сгенерировано */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;margin:16px 0;}
+.cmp-col{min-width:0;}
+.cmp-cap{font-size:12px;font-weight:600;color:var(--accent,#3b82f6);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+.cmp-cap--none{color:var(--muted,#9aa0a6);}
+.cmp img{max-width:100%;height:auto;border:1px solid var(--line,#2a2f3a);border-radius:6px;background:#fff;}
+.cmp-solo{display:block;}
+@media (max-width:900px){.cmp{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -912,6 +967,13 @@ class Handler(BaseHTTPRequestHandler):
                     return self._send(200, fh.read(),
                                       "application/javascript; charset=utf-8")
             return self._send(404, "not found", "text/plain; charset=utf-8")
+        if path.startswith("/assets/"):
+            res = resolve_asset(_unquote(path[len("/assets/"):]))
+            if res is None:
+                return self._send(404, "not found", "text/plain; charset=utf-8")
+            fp, mime = res
+            with open(fp, "rb") as fh:
+                return self._send(200, fh.read(), mime)
         if path.startswith("/api/q/"):
             qid = _unquote(path[len("/api/q/"):])
             q = QUESTIONS.get(qid)
@@ -933,6 +995,24 @@ def _parse_qs(s):
 def _unquote(s):
     import urllib.parse as u
     return u.unquote(s)
+
+
+_ASSET_MIME = {".gif": "image/gif", ".png": "image/png", ".jpg": "image/jpeg",
+               ".jpeg": "image/jpeg", ".svg": "image/svg+xml",
+               ".webp": "image/webp"}
+
+
+def resolve_asset(rel):
+    """rel — путь после /assets/. Возвращает (abspath, mime) или None.
+    Защита от обхода каталога: результат обязан лежать внутри java-docs/assets."""
+    base = os.path.normpath(os.path.join(JD_DIR, "assets"))
+    fp = os.path.normpath(os.path.join(base, rel.lstrip("/")))
+    if fp != base and not fp.startswith(base + os.sep):
+        return None
+    mime = _ASSET_MIME.get(os.path.splitext(fp)[1].lower())
+    if mime is None or not os.path.isfile(fp):
+        return None
+    return (fp, mime)
 
 
 def main():
