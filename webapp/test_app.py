@@ -107,5 +107,29 @@ class StyleTests(unittest.TestCase):
         self.assertIn("grid-template-columns:1fr;}", app.PAGE)
 
 
+class LeetCodeViewerSupportTests(unittest.TestCase):
+    def test_level_order_has_difficulties(self):
+        for lvl in ("Easy", "Medium", "Hard"):
+            self.assertIn(lvl, app.LEVEL_ORDER)
+
+    def test_groups_include_leetcode_in_design_group(self):
+        keys = dict(app.GROUPS)["Проектирование и инженерная культура"]
+        self.assertIn("leetcode", keys)
+
+    def test_parse_block_keeps_easy_level(self):
+        app.QUESTIONS.clear(); app.INDEX.clear(); app.BLOB.clear()
+        block = (
+            "### Вопрос 1. LC 217. Содержит дубликат (Contains Duplicate)\n\n"
+            "**Категория:** Алгоритмы и структуры данных · Hash Table · "
+            "**Уровень:** Easy\n\n"
+            "Условие.\n\n"
+            "#### Оригинальный ответ из интернета\n"
+            "> Источник: [x](https://example.com)\n\nКод.\n\n"
+            "#### Ответ от Claude\n\nJava.\n"
+        )
+        qid = app.parse_question_block(block, "leetcode", "Задачи LeetCode")
+        self.assertEqual(app.QUESTIONS[qid]["level"], "Easy")
+
+
 if __name__ == "__main__":
     unittest.main()

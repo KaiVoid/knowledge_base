@@ -33,7 +33,7 @@ GROUPS = [
      ["basics", "oop", "generics", "exceptions", "collections", "concurrency",
       "jvm-gc", "functional-streams", "modern-java", "io-nio"]),
     ("Проектирование и инженерная культура",
-     ["design-patterns", "solid-clean-code", "algorithms"]),
+     ["design-patterns", "solid-clean-code", "algorithms", "leetcode"]),
     ("Backend-экосистема",
      ["spring", "spring-boot", "databases-sql", "postgresql", "redis",
       "cassandra", "clickhouse", "jpa-hibernate", "jooq",
@@ -42,7 +42,8 @@ GROUPS = [
      ["distributed-systems", "microservices", "quarkus", "messaging",
       "containers-devops", "security"]),
 ]
-LEVEL_ORDER = {"Junior": 0, "Middle": 1, "Senior": 2}
+LEVEL_ORDER = {"Junior": 0, "Middle": 1, "Senior": 2,
+               "Easy": 3, "Medium": 4, "Hard": 5}
 
 # ---------------------------------------------------------------------------
 # Подсветка кода (серверная, без внешних зависимостей)
@@ -313,6 +314,12 @@ def parse_question_block(block, sec_key, sec_title):
     qtext = m.group(2).strip()
     cat_idx = block.find("**Категория:**")
     extra = block[m.end():cat_idx].strip() if cat_idx != -1 else ""
+    if not extra and cat_idx != -1:
+        # LeetCode format: problem statement comes after the Категория/Уровень line
+        cat_line_end = block.find("\n", cat_idx)
+        h4_idx = block.find("####", cat_idx)
+        if cat_line_end != -1 and h4_idx != -1 and cat_line_end < h4_idx:
+            extra = block[cat_line_end:h4_idx].strip()
     extra_html = render_md(extra) if extra else ""
     lm = re.search(r'\*\*Уровень:\*\*\s*([A-Za-zА-Яа-я/ ]+)', block)
     level = lm.group(1).strip().split("/")[0].strip() if lm else ""
@@ -519,6 +526,7 @@ main{flex:1;padding:18px 22px;max-width:980px}
 .qtext{flex:1;font-weight:600}
 .badge{font-size:11px;padding:2px 8px;border-radius:20px;color:#fff;white-space:nowrap;align-self:center}
 .b-Junior{background:var(--jun)}.b-Middle{background:var(--mid)}.b-Senior{background:var(--sen)}
+.b-Easy{background:var(--jun)}.b-Medium{background:var(--mid)}.b-Hard{background:var(--sen)}
 .b-none{background:#9ca3af}
 .answers{border-top:1px solid var(--line);padding:4px 16px 14px;display:none}
 .card.open .answers{display:block}
@@ -647,6 +655,9 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
     <option value="Junior">Junior</option>
     <option value="Middle">Middle</option>
     <option value="Senior">Senior</option>
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
   </select>
   <label class="chk"><input type="checkbox" id="hide" onchange="toggleHide()"> Скрыть ответы</label>
   <button id="rpanelBtn" class="rpanel-toggle" onclick="toggleRPanel()" title="Настройки" aria-label="Настройки">⚙</button>
