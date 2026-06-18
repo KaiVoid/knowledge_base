@@ -531,13 +531,15 @@ main{flex:1;padding:18px 22px;max-width:980px}
 .answers{border-top:1px solid var(--line);padding:4px 16px 14px;display:none}
 .card.open .answers{display:block}
 .qextra{margin:6px 0 4px}
-.ans-sec{margin-top:12px}
-.ans-sec h4{margin:0 0 4px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.ans-sec{margin-top:12px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ans-sec h4{margin:0;padding:9px 12px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;background:var(--panel)}
+.ans-sec h4:hover{color:var(--accent)}
+.ans-sec .caret{display:inline-block;font-size:10px;color:var(--accent);transition:transform .15s}
+.ans-sec .caret::before{content:"\25B6"}
+.ans-sec:not(.collapsed) .caret{transform:rotate(90deg)}
+.ans-sec .ans-content{padding:2px 12px 12px}
+.ans-sec.collapsed .ans-content{display:none}
 .src{font-size:13px;color:var(--muted);margin:2px 0 6px}
-.answers.hidden .ans-body{filter:blur(5px);user-select:none}
-.reveal{display:none}
-.answers.hidden .reveal{display:inline-block;margin-top:8px;padding:6px 12px;border:1px solid var(--accent);
-color:var(--accent);border-radius:8px;cursor:pointer;background:#fff}
 .muted{color:var(--muted)}
 .empty{color:var(--muted);padding:40px;text-align:center}
 /* контент markdown */
@@ -581,7 +583,6 @@ html[data-theme="darcula"] .tok-s{color:#6a8759}
 html[data-theme="darcula"] .tok-c{color:#808080}
 html[data-theme="darcula"] .tok-n{color:#6897bb}
 html[data-theme="darcula"] .tok-a{color:#bbb529}
-html[data-theme="darcula"] .reveal{background:#45494a}
 /* тема VS Code (Dark+) */
 html[data-theme="vscode"]{--bg:#1e1e1e;--panel:#252526;--ink:#d4d4d4;--muted:#858585;
 --line:#3c3c3c;--accent:#007acc;--accent2:#1177bb;
@@ -600,7 +601,6 @@ html[data-theme="vscode"] .tok-s{color:#ce9178}
 html[data-theme="vscode"] .tok-c{color:#6a9955}
 html[data-theme="vscode"] .tok-n{color:#b5cea8}
 html[data-theme="vscode"] .tok-a{color:#dcdcaa}
-html[data-theme="vscode"] .reveal{background:#3c3c3c}
 /* правая панель настроек */
 .rpanel-toggle{margin-left:auto;cursor:pointer;border:1px solid var(--line);background:var(--panel);
 color:var(--ink);border-radius:8px;padding:6px 10px;font-size:16px;line-height:1}
@@ -659,7 +659,6 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
     <option value="Medium">Medium</option>
     <option value="Hard">Hard</option>
   </select>
-  <label class="chk"><input type="checkbox" id="hide" onchange="toggleHide()"> Скрыть ответы</label>
   <button id="rpanelBtn" class="rpanel-toggle" onclick="toggleRPanel()" title="Настройки" aria-label="Настройки">⚙</button>
 </header>
 <div class="wrap">
@@ -913,19 +912,14 @@ async function openQ(id){
     const d= cache[id] || (cache[id]=await (await fetch(api.q(id))).json());
     let src = d.sourceUrl? `<div class="src">Источник: <a href="${esc(d.sourceUrl)}" target="_blank" rel="noopener">${esc(d.sourceName||d.sourceUrl)}</a></div>`:'';
     let extra = d.questionExtraHtml? `<div class="md qextra">${d.questionExtraHtml}</div>`:'';
-    box.innerHTML=extra+`<div class="ans-sec"><h4>Оригинальный ответ из интернета</h4>${src}
-        <div class="md ans-body">${d.originalHtml}</div></div>
-      <div class="ans-sec"><h4>Ответ от Claude</h4><div class="md ans-body">${d.claudeHtml}</div></div>
-      <button class="reveal" onclick="this.closest('.answers').classList.remove('hidden')">Показать ответ</button>`;
+    box.innerHTML=extra+`<div class="ans-sec collapsed"><h4 onclick="this.parentNode.classList.toggle('collapsed')"><span class="caret"></span>Оригинальный ответ из интернета</h4>
+        <div class="ans-content">${src}<div class="md ans-body">${d.originalHtml}</div></div></div>
+      <div class="ans-sec collapsed"><h4 onclick="this.parentNode.classList.toggle('collapsed')"><span class="caret"></span>Ответ от Claude</h4>
+        <div class="ans-content"><div class="md ans-body">${d.claudeHtml}</div></div></div>`;
     box.dataset.loaded='1';
   }
-  if($('#hide').checked) box.classList.add('hidden');
   c.classList.add('open');
   scheduleAuto();
-}
-function toggleHide(){
-  const on=$('#hide').checked;
-  document.querySelectorAll('.answers').forEach(b=>b.classList.toggle('hidden',on && b.dataset.loaded));
 }
 function renderKB(){
   const m=$('#main');

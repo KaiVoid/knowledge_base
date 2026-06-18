@@ -131,5 +131,20 @@ class LeetCodeViewerSupportTests(unittest.TestCase):
         self.assertEqual(app.QUESTIONS[qid]["level"], "Easy")
 
 
+class CollapsibleAnswersTests(unittest.TestCase):
+    def test_page_renders_collapsed_answer_sections(self):
+        # Оба ответа рендерятся свёрнутыми и раскрываются по клику по своему заголовку.
+        self.assertIn("ans-sec collapsed", app.PAGE)
+        self.assertIn("this.parentNode.classList.toggle('collapsed')", app.PAGE)
+        self.assertIn("ans-content", app.PAGE)
+
+    def test_page_dropped_old_hide_mechanism(self):
+        # Старый чекбокс «Скрыть ответы» / blur / кнопка «Показать ответ» удалены.
+        self.assertNotIn("toggleHide", app.PAGE)
+        self.assertNotIn("Скрыть ответы", app.PAGE)
+        self.assertNotIn("Показать ответ", app.PAGE)
+        self.assertNotIn('id="hide"', app.PAGE)
+
+
 if __name__ == "__main__":
     unittest.main()
