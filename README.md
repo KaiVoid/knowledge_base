@@ -39,6 +39,19 @@
 start-app.bat         REM или: cd webapp && python app.py
 ```
 
+## Онлайн-версия (GitHub Pages)
+
+Статическая версия просмотрщика публикуется автоматически из ветки `master`:
+
+- Живая ссылка: https://kaivoid.github.io/knowledge_base/
+- Сборка: `python3 webapp/build.py` (генерирует `dist/`); в CI это делает
+  workflow `.github/workflows/pages.yml` при каждом push в `master`.
+- **Разовая настройка (вручную в GitHub, обязательна один раз):**
+  Settings → Pages → Build and deployment → Source = «GitHub Actions».
+  Токен Actions не вправе создать Pages-сайт сам (`Resource not accessible by
+  integration`), поэтому первый раз источник включается вручную. После этого
+  каждый push в `master` деплоится автоматически.
+
 ## Принципы
 
 - Всё на русском языке. Иностранные источники переводятся.

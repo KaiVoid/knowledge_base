@@ -675,7 +675,7 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
     <button class="rp-reset" onclick="resetStudied()">Сбросить просмотренное</button>
   </div>
 </aside>
-<script src="/vendor/mermaid.min.js"></script>
+<script src="vendor/mermaid.min.js"></script>
 <script>
 let DATA={groups:[],questions:[]}, KB=[], JD=[], tab='q', section='', jdSel='', cache={};
 let collapsed={}; try{collapsed=JSON.parse(localStorage.getItem('collapsedGroups')||'{}')||{};}catch(e){collapsed={};}
@@ -699,8 +699,30 @@ function toggleGroup(key){
 function rpClose(){ document.getElementById('rpanel').classList.remove('open'); document.getElementById('rpanelOverlay').classList.remove('open'); }
 function toggleRPanel(){ document.getElementById('rpanel').classList.toggle('open'); document.getElementById('rpanelOverlay').classList.toggle('open'); }
 
+const STATIC = false;   // build.py заменит на true при генерации статики
+const api = {
+  index: ()=> STATIC ? 'api/index.json' : '/api/index',
+  kb:    ()=> STATIC ? 'api/kb.json'    : '/api/kb',
+  jd:    ()=> STATIC ? 'api/jd.json'    : '/api/jd',
+  jddoc: id=> STATIC ? 'api/jddoc/'+id.replace(/\//g,'__')+'.json'
+                     : '/api/jddoc?id='+encodeURIComponent(id),
+  q:     id=> STATIC ? 'api/q/'+id+'.json'
+                     : '/api/q/'+encodeURIComponent(id),
+};
+let SEARCH_BLOB=null;
+async function clientSearch(q, level, section){
+  if(SEARCH_BLOB===null) SEARCH_BLOB=await (await fetch('api/search-blob.json')).json();
+  const ql=(q||'').trim().toLowerCase(); const res=[];
+  for(const item of DATA.questions){
+    if(section && item.section!==section) continue;
+    if(level && item.level!==level) continue;
+    if(ql && !((SEARCH_BLOB[item.id]||'').includes(ql))) continue;
+    res.push(item); if(res.length>=800) break;
+  }
+  return res;
+}
 async function boot(){
-  DATA=await (await fetch('/api/index')).json();
+  DATA=await (await fetch(api.index())).json();
   $('#side').addEventListener('click',e=>{
     const h=e.target.closest('.ghead');
     if(h){ e.stopPropagation(); toggleGroup(h.dataset.grp); }
@@ -717,8 +739,8 @@ function setTab(t){
   $('#search').style.display = t==='q'?'':'none';
   $('#level').style.display = t==='q'?'':'none';
   document.getElementById('hide').closest('label.chk').style.display = t==='q'?'':'none';
-  if(t==='kb' && !KB.length){ fetch('/api/kb').then(r=>r.json()).then(d=>{KB=d;renderSide();render();}); }
-  else if(t==='jd' && !JD.length){ fetch('/api/jd').then(r=>r.json()).then(d=>{JD=d;renderSide();render();}); }
+  if(t==='kb' && !KB.length){ fetch(api.kb()).then(r=>r.json()).then(d=>{KB=d;renderSide();render();}); }
+  else if(t==='jd' && !JD.length){ fetch(api.jd()).then(r=>r.json()).then(d=>{JD=d;renderSide();render();}); }
   else { renderSide(); render(); }
 }
 function renderSide(){
@@ -764,7 +786,7 @@ async function renderJD(){
   if(!jdSel) jdSel=JD[0].id+'/'+JD[0].lessons[0].id;
   let trail=JD.find(t=>jdSel.startsWith(t.id+'/'));
   let lesson=trail&&trail.lessons.find(l=>jdSel===trail.id+'/'+l.id);
-  const d= cache['jd:'+jdSel] || (cache['jd:'+jdSel]=await (await fetch('/api/jddoc?id='+encodeURIComponent(jdSel))).json());
+  const d= cache['jd:'+jdSel] || (cache['jd:'+jdSel]=await (await fetch(api.jddoc(jdSel))).json());
   const crumb=trail?esc(trail.title)+' · '+esc(lesson?lesson.title:''):'';
   const _k='jd:'+jdSel, _on=isStudied(_k);
   m.innerHTML=`<div class="page-head"><div class="crumb">${crumb}</div>
@@ -789,8 +811,8 @@ async function render(){
   const q=$('#search').value.trim(), level=$('#level').value;
   let list;
   if(q){
-    const u=new URLSearchParams({q,level,section});
-    list=await (await fetch('/api/search?'+u)).json();
+    if(STATIC){ list=await clientSearch(q,level,section); }
+    else { const u=new URLSearchParams({q,level,section}); list=await (await fetch('/api/search?'+u)).json(); }
   } else {
     list=DATA.questions.filter(x=>(!section||x.section===section)&&(!level||x.level===level));
   }
@@ -877,7 +899,7 @@ async function openQ(id){
   if(c.classList.contains('open')){ c.classList.remove('open'); return; }
   const box=c.querySelector('.answers');
   if(!box.dataset.loaded){
-    const d= cache[id] || (cache[id]=await (await fetch('/api/q/'+encodeURIComponent(id))).json());
+    const d= cache[id] || (cache[id]=await (await fetch(api.q(id))).json());
     let src = d.sourceUrl? `<div class="src">Источник: <a href="${esc(d.sourceUrl)}" target="_blank" rel="noopener">${esc(d.sourceName||d.sourceUrl)}</a></div>`:'';
     let extra = d.questionExtraHtml? `<div class="md qextra">${d.questionExtraHtml}</div>`:'';
     box.innerHTML=extra+`<div class="ans-sec"><h4>Оригинальный ответ из интернета</h4>${src}
