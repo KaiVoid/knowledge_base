@@ -743,8 +743,7 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
   <h1>База знаний</h1>
   <div class="tabs">
     <div class="tab active" data-tab="q" onclick="setTab('q')">Вопросы</div>
-    <div class="tab" data-tab="kb" onclick="setTab('kb')">Области знаний</div>
-    <div class="tab" data-tab="jd" onclick="setTab('jd')">Java-документация</div>
+    <div class="tab" data-tab="th" onclick="setTab('th')">Теория</div>
   </div>
   <input id="search" placeholder="Поиск по вопросам и ответам…" oninput="onSearch()">
   <select id="level" onchange="render()">
@@ -804,7 +803,7 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
 </div>
 <script src="vendor/mermaid.min.js"></script>
 <script>
-let DATA={groups:[],questions:[]}, KB=[], JD=[], tab='q', section='', jdSel='', cache={};
+let DATA={groups:[],questions:[]}, THEORY=[], tab='q', section='', thSel='', cache={};
 let collapsed={}; try{collapsed=JSON.parse(localStorage.getItem('collapsedGroups')||'{}')||{};}catch(e){collapsed={};}
 function isCollapsed(key){ return (key in collapsed) ? !!collapsed[key] : true; }
 const $=s=>document.querySelector(s);
@@ -849,10 +848,9 @@ function toggleRPanel(){ document.getElementById('rpanel').classList.toggle('ope
 const STATIC = false;   // build.py заменит на true при генерации статики
 const api = {
   index: ()=> STATIC ? 'api/index.json' : '/api/index',
-  kb:    ()=> STATIC ? 'api/kb.json'    : '/api/kb',
-  jd:    ()=> STATIC ? 'api/jd.json'    : '/api/jd',
-  jddoc: id=> STATIC ? 'api/jddoc/'+id.replace(/\//g,'__')+'.json'
-                     : '/api/jddoc?id='+encodeURIComponent(id),
+  theory:    ()=> STATIC ? 'api/theory.json' : '/api/theory',
+  theorydoc: id=> STATIC ? 'api/theorydoc/'+id.replace(/\//g,'__')+'.json'
+                         : '/api/theorydoc?id='+encodeURIComponent(id),
   q:     id=> STATIC ? 'api/q/'+id+'.json'
                      : '/api/q/'+encodeURIComponent(id),
 };
@@ -900,26 +898,26 @@ function setTab(t){
   document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.dataset.tab===t));
   $('#search').style.display = t==='q'?'':'none';
   $('#level').style.display = t==='q'?'':'none';
-  if(t==='kb' && !KB.length){ fetch(api.kb()).then(r=>r.json()).then(d=>{KB=d;renderSide();render();}); }
-  else if(t==='jd' && !JD.length){ fetch(api.jd()).then(r=>r.json()).then(d=>{JD=d;renderSide();render();}); }
+  if(t==='th' && !THEORY.length){ fetch(api.theory()).then(r=>r.json()).then(d=>{THEORY=d;renderSide();render();}); }
   else { renderSide(); render(); }
 }
 function renderSide(){
   const s=$('#side');
-  if(tab==='jd'){
-    if(!jdSel && JD.length && JD[0].lessons.length) jdSel=JD[0].id+'/'+JD[0].lessons[0].id;
-    s.innerHTML=JD.map(tr=>{const key='jd:'+tr.id;
-      return `<div class="grp ${isCollapsed(key)?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(tr.title)}</h3>`+
-      tr.lessons.map(ls=>{const id=tr.id+'/'+ls.id;
-        return `<div class="sec ${jdSel===id?'active':''} ${isStudied('jd:'+id)?'studied':''}" onclick="jdPick('${id}')">
-          <span>${esc(ls.title)}</span></div>`;}).join('')+'</div>';}).join('')
-      || '<div class="grp"><h3>Java-документация</h3><div class="muted">Пока пусто</div></div>';
-    return;
-  }
-  if(tab==='kb'){
-    s.innerHTML=`<div class="grp ${isCollapsed('kb:areas')?'collapsed':''}"><h3 class="ghead" data-grp="kb:areas"><span class="chev">▾</span>Области знаний</h3>`+
-      KB.map(k=>`<div class="sec ${section===k.id?'active':''} ${isStudied('kb:'+k.id)?'studied':''}" onclick="pick('${k.id}')">
-        <span>${esc(k.title)}</span></div>`).join('')+'</div>';
+  if(tab==='th'){
+    if(!thSel && THEORY.length){ const sg0=THEORY[0].subgroups[0]; if(sg0 && sg0.docs.length) thSel=sg0.docs[0].id; }
+    let h='';
+    for(const g of THEORY){
+      h+=`<div class="grp ${isCollapsed(g.key)?'collapsed':''}"><h3 class="ghead" data-grp="${esc(g.key)}"><span class="chev">▾</span>${esc(g.title)}</h3>`;
+      for(const sg of g.subgroups){
+        h+=`<div class="subgrp ${isCollapsed(sg.key)?'collapsed':''}"><h4 class="shead" data-grp="${esc(sg.key)}"><span class="chev">▾</span>${esc(sg.title)}</h4>`;
+        for(const d of sg.docs){
+          h+=`<div class="sec ${thSel===d.id?'active':''} ${isStudied('th:'+d.id)?'studied':''}" onclick="thPick('${d.id}')"><span>${esc(d.title)}</span></div>`;
+        }
+        h+='</div>';
+      }
+      h+='</div>';
+    }
+    s.innerHTML=h || '<div class="grp"><h3>Теория</h3><div class="muted">Пока пусто</div></div>';
     return;
   }
   let total=DATA.questions.length;
@@ -948,16 +946,22 @@ function pick(id){ section=id; render(); renderSide(); window.scrollTo(0,0); }
 let _t=null;
 function onSearch(){ clearTimeout(_t); _t=setTimeout(render,180); }
 
-function jdPick(id){ jdSel=id; render(); renderSide(); window.scrollTo(0,0); }
-async function renderJD(){
+function thPick(id){ thSel=id; render(); renderSide(); window.scrollTo(0,0); }
+function thFind(id){
+  for(const g of THEORY) for(const sg of g.subgroups){
+    const d=sg.docs.find(x=>x.id===id);
+    if(d) return {g, sg, d};
+  }
+  return null;
+}
+async function renderTheory(){
   const m=$('#main');
-  if(!JD.length){ m.innerHTML='<div class="empty">Раздел пуст</div>'; return; }
-  if(!jdSel) jdSel=JD[0].id+'/'+JD[0].lessons[0].id;
-  let trail=JD.find(t=>jdSel.startsWith(t.id+'/'));
-  let lesson=trail&&trail.lessons.find(l=>jdSel===trail.id+'/'+l.id);
-  const d= cache['jd:'+jdSel] || (cache['jd:'+jdSel]=await (await fetch(api.jddoc(jdSel))).json());
-  const crumb=trail?esc(trail.title)+' · '+esc(lesson?lesson.title:''):'';
-  const _k='jd:'+jdSel, _on=isStudied(_k);
+  if(!THEORY.length){ m.innerHTML='<div class="empty">Раздел пуст</div>'; return; }
+  if(!thSel){ const sg0=THEORY[0].subgroups[0]; thSel=sg0.docs[0].id; }
+  const hit=thFind(thSel);
+  const crumb=hit?`${esc(hit.g.title)} · ${esc(hit.sg.title)} · ${esc(hit.d.title)}`:'';
+  const d= cache['th:'+thSel] || (cache['th:'+thSel]=await (await fetch(api.theorydoc(thSel))).json());
+  const _k='th:'+thSel, _on=isStudied(_k);
   m.innerHTML=`<div class="page-head"><div class="crumb">${crumb}</div>
     <button class="studybtn kb-studybtn ${_on?'on':''}" onclick="markPage('${_k}')">${_on?'✓ Изучено':'Изучено'}</button></div>
     <div class="kb"><div class="md">${(d&&d.html)||'<div class="empty">Нет данных</div>'}</div></div>`;
@@ -975,8 +979,7 @@ function runMermaid(){
 }
 async function render(){
   const m=$('#main');
-  if(tab==='jd'){ renderJD(); return; }
-  if(tab==='kb'){ renderKB(); return; }
+  if(tab==='th'){ renderTheory(); return; }
   const q=$('#search').value.trim(), level=$('#level').value;
   let list;
   if(q){
@@ -1036,12 +1039,12 @@ function onScrollAuto(){
 function maybeAutoStudy(){
   if(!autoStudy) return;
   const vh=window.innerHeight||document.documentElement.clientHeight;
-  if(tab==='kb'||tab==='jd'){
+  if(tab==='th'){
     const main=$('#main'); if(!main) return;
     const r=main.getBoundingClientRect();
     if(r.bottom<=vh+4){
-      const key = tab==='kb' ? ('kb:'+section) : ('jd:'+jdSel);
-      if(key && key!=='kb:' && key!=='jd:' && !isStudied(key)){
+      const key='th:'+thSel;
+      if(thSel && !isStudied(key)){
         setStudied(key,true); render(); renderSide();
       }
     }
@@ -1080,20 +1083,7 @@ async function openQ(id){
   c.classList.add('open');
   scheduleAuto();
 }
-function renderKB(){
-  const m=$('#main');
-  const item = KB.find(k=>k.id===section) || KB[0];
-  if(!item){ m.innerHTML='<div class="empty">Нет данных</div>'; return; }
-  if(!section) section=item.id;
-  const key='kb:'+item.id, on=isStudied(key);
-  m.innerHTML=`<div class="kb"><div class="page-head">
-    <h2 style="margin-top:0">${esc(item.title)}</h2>
-    <button class="studybtn kb-studybtn ${on?'on':''}" onclick="markPage('${key}')">${on?'✓ Изучено':'Изучено'}</button>
-    </div>
-    ${item.level?`<div class="src">Уровень: ${esc(item.level)}</div>`:''}
-    <div class="md">${item.html}</div></div>`;
-  scheduleAuto();
-}
+
 function sectionTitle(k){
   for(const g of DATA.groups){
     if(g.sections) for(const s of g.sections) if(s.key===k) return s.title;

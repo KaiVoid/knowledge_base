@@ -74,5 +74,23 @@ class LoadTheoryTest(unittest.TestCase):
         self.assertNotIn("\\", did)
 
 
+class PageMarkupTest(unittest.TestCase):
+    def test_tabs_are_questions_and_theory(self):
+        self.assertIn('data-tab="th"', app.PAGE)
+        self.assertIn('>Теория<', app.PAGE)
+
+    def test_old_tabs_removed(self):
+        self.assertNotIn('data-tab="kb"', app.PAGE)
+        self.assertNotIn('data-tab="jd"', app.PAGE)
+        self.assertNotIn('>Java-документация<', app.PAGE)
+        self.assertNotIn('>Области знаний<', app.PAGE)
+
+    def test_theory_functions_present(self):
+        self.assertIn('function renderTheory', app.PAGE)
+        self.assertIn('function thPick', app.PAGE)
+        self.assertNotIn('function renderKB', app.PAGE)
+        self.assertNotIn('function renderJD', app.PAGE)
+
+
 if __name__ == "__main__":
     unittest.main()
