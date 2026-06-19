@@ -43,7 +43,18 @@ GROUPS = [
       "containers-devops", "security"]),
 ]
 LEVEL_ORDER = {"Junior": 0, "Middle": 1, "Senior": 2,
-               "Easy": 3, "Medium": 4, "Hard": 5}
+               "Easy": 3, "Medium": 4, "Hard": 5,
+               "Basic": 6, "Intermediate": 7, "Advanced": 8}
+
+# Группа «Вопросы с HH»: дерево interview-questions/hh/<topic>/<level>/*.md.
+HH_DIR = os.path.join(IQ_DIR, "hh")
+HH_GROUP_TITLE = "Вопросы с HH"
+HH_TOPIC_ORDER = ["postgresql", "java", "docker", "oop", "sql"]
+HH_TOPIC_TITLE = {"postgresql": "PostgreSQL", "java": "Java",
+                  "docker": "Docker", "oop": "OOP", "sql": "SQL"}
+HH_LEVEL_ORDER = ["advanced", "intermediate", "basic"]
+HH_LEVEL_TITLE = {"advanced": "Advanced", "intermediate": "Intermediate",
+                  "basic": "Basic"}
 
 # ---------------------------------------------------------------------------
 # Подсветка кода (серверная, без внешних зависимостей)
@@ -371,6 +382,25 @@ def load_questions():
                 parse_question_block(block, base, SECTION_TITLE[base])
             except Exception as e:
                 print("Ошибка блока в %s: %s" % (name, e), file=sys.stderr)
+    # Раздел «Вопросы с HH»: дерево hh/<topic>/<level>/*.md; ключ — из пути.
+    for hf in sorted(glob.glob(os.path.join(HH_DIR, "*", "*", "*.md"))):
+        rel = os.path.relpath(hf, HH_DIR)
+        parts = rel.split(os.sep)
+        if len(parts) != 3:
+            continue
+        topic, level, _ = parts
+        base = "hh-%s-%s" % (topic, level)
+        try:
+            text = open(hf, encoding="utf-8").read()
+        except Exception as e:
+            print("Пропуск %s: %s" % (hf, e), file=sys.stderr)
+            continue
+        SECTION_TITLE.setdefault(base, HH_LEVEL_TITLE.get(level, level.capitalize()))
+        for block in re.split(r'(?m)(?=^###\s+Вопрос\s+\d+\.)', text)[1:]:
+            try:
+                parse_question_block(block, base, SECTION_TITLE[base])
+            except Exception as e:
+                print("Ошибка блока в %s: %s" % (hf, e), file=sys.stderr)
     INDEX.sort(key=lambda x: (x["section"], x["num"]))
 
 
@@ -451,6 +481,21 @@ def build_groups_payload():
                 seen.add(k)
         if secs:
             groups.append({"title": gtitle, "sections": secs})
+    # Группа «Вопросы с HH»: подгруппа = тема, раздел = уровень (из дерева папок).
+    hh_subgroups = []
+    for topic in HH_TOPIC_ORDER:
+        secs = []
+        for level in HH_LEVEL_ORDER:
+            k = "hh-%s-%s" % (topic, level)
+            if k in SECTION_TITLE:
+                secs.append({"key": k, "title": SECTION_TITLE[k],
+                             "count": counts.get(k, 0)})
+                seen.add(k)
+        if secs:
+            hh_subgroups.append({"title": HH_TOPIC_TITLE.get(topic, topic),
+                                 "sections": secs})
+    if hh_subgroups:
+        groups.append({"title": HH_GROUP_TITLE, "subgroups": hh_subgroups})
     extra = [{"key": k, "title": SECTION_TITLE[k], "count": counts.get(k, 0)}
              for k in SECTION_TITLE if k not in seen]
     if extra:
@@ -509,9 +554,20 @@ aside .grp>h3.ghead:hover{background:#eef2ff;color:var(--ink)}
 aside .grp>h3.ghead .chev{font-size:9px;line-height:1;transition:transform .15s;opacity:.7}
 aside .grp.collapsed>h3.ghead .chev{transform:rotate(-90deg)}
 aside .grp.collapsed .sec{display:none}
+aside .grp.collapsed .subgrp{display:none}
+aside .subgrp{margin:2px 0 6px 8px}
+aside .subgrp>h4.shead{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-radius:7px;padding:3px 6px;margin:0 0 2px;font-size:12px;font-weight:600;color:var(--ink)}
+aside .subgrp>h4.shead:hover{background:#eef2ff}
+aside .subgrp>h4.shead .chev{font-size:9px;line-height:1;transition:transform .15s;opacity:.7}
+aside .subgrp.collapsed>h4.shead .chev{transform:rotate(-90deg)}
+aside .subgrp.collapsed .sec{display:none}
+aside .subgrp .sec{margin-left:6px}
 html[data-theme="dark"] aside .grp>h3.ghead:hover{background:#1c2742}
 html[data-theme="darcula"] aside .grp>h3.ghead:hover{background:#2f65ca33}
 html[data-theme="vscode"] aside .grp>h3.ghead:hover{background:#2a2d2e}
+html[data-theme="dark"] aside .subgrp>h4.shead:hover{background:#1c2742}
+html[data-theme="darcula"] aside .subgrp>h4.shead:hover{background:#2f65ca33}
+html[data-theme="vscode"] aside .subgrp>h4.shead:hover{background:#2a2d2e}
 aside .sec{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:7px;cursor:pointer}
 aside .sec:hover{background:#eef2ff}
 aside .sec.active{background:var(--accent);color:#fff}
@@ -528,6 +584,7 @@ main{flex:1;padding:18px 22px;max-width:980px}
 .b-Junior{background:var(--jun)}.b-Middle{background:var(--mid)}.b-Senior{background:var(--sen)}
 .b-Easy{background:var(--jun)}.b-Medium{background:var(--mid)}.b-Hard{background:var(--sen)}
 .b-none{background:#9ca3af}
+.b-Advanced{background:var(--sen)}.b-Intermediate{background:var(--mid)}.b-Basic{background:var(--jun)}
 .answers{border-top:1px solid var(--line);padding:4px 16px 14px;display:none}
 .card.open .answers{display:block}
 .qextra{margin:6px 0 4px}
@@ -658,6 +715,9 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
     <option value="Easy">Easy</option>
     <option value="Medium">Medium</option>
     <option value="Hard">Hard</option>
+    <option value="Advanced">Advanced</option>
+    <option value="Intermediate">Intermediate</option>
+    <option value="Basic">Basic</option>
   </select>
   <button id="rpanelBtn" class="rpanel-toggle" onclick="toggleRPanel()" title="Настройки" aria-label="Настройки">⚙</button>
 </header>
@@ -734,7 +794,7 @@ async function clientSearch(q, level, section){
 async function boot(){
   DATA=await (await fetch(api.index())).json();
   $('#side').addEventListener('click',e=>{
-    const h=e.target.closest('.ghead');
+    const h=e.target.closest('.ghead,.shead');
     if(h){ e.stopPropagation(); toggleGroup(h.dataset.grp); }
   });
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') rpClose(); });
@@ -748,7 +808,6 @@ function setTab(t){
   document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.dataset.tab===t));
   $('#search').style.display = t==='q'?'':'none';
   $('#level').style.display = t==='q'?'':'none';
-  document.getElementById('hide').closest('label.chk').style.display = t==='q'?'':'none';
   if(t==='kb' && !KB.length){ fetch(api.kb()).then(r=>r.json()).then(d=>{KB=d;renderSide();render();}); }
   else if(t==='jd' && !JD.length){ fetch(api.jd()).then(r=>r.json()).then(d=>{JD=d;renderSide();render();}); }
   else { renderSide(); render(); }
@@ -774,12 +833,20 @@ function renderSide(){
   let total=DATA.questions.length;
   let h=`<div class="grp"><div class="sec ${section===''?'active':''}" onclick="pick('')">
     <span><b>Все вопросы</b></span><span class="cnt">${total}</span></div></div>`;
+  const secHtml = sec => `<div class="sec ${section===sec.key?'active':''} ${sectionStudied(sec.key)?'studied':''}" onclick="pick('${sec.key}')">
+        <span>${esc(sec.title)}</span><span class="cnt">${sec.count}</span></div>`;
   for(const g of DATA.groups){
     const key='q:'+g.title;
     h+=`<div class="grp ${collapsed[key]?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(g.title)}</h3>`;
-    for(const sec of g.sections){
-      h+=`<div class="sec ${section===sec.key?'active':''} ${sectionStudied(sec.key)?'studied':''}" onclick="pick('${sec.key}')">
-        <span>${esc(sec.title)}</span><span class="cnt">${sec.count}</span></div>`;
+    if(g.subgroups){
+      for(const sg of g.subgroups){
+        const skey='q:'+g.title+'/'+sg.title;
+        h+=`<div class="subgrp ${collapsed[skey]?'collapsed':''}"><h4 class="shead" data-grp="${esc(skey)}"><span class="chev">▾</span>${esc(sg.title)}</h4>`;
+        for(const sec of sg.sections){ h+=secHtml(sec); }
+        h+='</div>';
+      }
+    } else {
+      for(const sec of g.sections){ h+=secHtml(sec); }
     }
     h+='</div>';
   }
@@ -936,7 +1003,10 @@ function renderKB(){
   scheduleAuto();
 }
 function sectionTitle(k){
-  for(const g of DATA.groups) for(const s of g.sections) if(s.key===k) return s.title;
+  for(const g of DATA.groups){
+    if(g.sections) for(const s of g.sections) if(s.key===k) return s.title;
+    if(g.subgroups) for(const sg of g.subgroups) for(const s of sg.sections) if(s.key===k) return sg.title+' — '+s.title;
+  }
   return k;
 }
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}

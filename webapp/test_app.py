@@ -144,6 +144,85 @@ class CollapsibleAnswersTests(unittest.TestCase):
         self.assertNotIn("Скрыть ответы", app.PAGE)
         self.assertNotIn("Показать ответ", app.PAGE)
         self.assertNotIn('id="hide"', app.PAGE)
+        # setTab не должен дёргать удалённый элемент #hide (иначе null.closest → throw,
+        # и переключение вкладок ломается).
+        self.assertNotIn("getElementById('hide')", app.PAGE)
+
+
+class HHLoadTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        app.QUESTIONS.clear(); app.INDEX.clear(); app.BLOB.clear()
+        app.SECTION_TITLE.clear()
+        app.load_questions()
+
+    def test_level_order_has_hh_levels(self):
+        for lvl in ("Advanced", "Intermediate", "Basic"):
+            self.assertIn(lvl, app.LEVEL_ORDER)
+
+    def test_hh_section_key_from_path(self):
+        qid = "hh-postgresql-advanced-1"
+        self.assertIn(qid, app.QUESTIONS)
+        q = app.QUESTIONS[qid]
+        self.assertEqual(q["section"], "hh-postgresql-advanced")
+        self.assertEqual(q["level"], "Advanced")
+
+    def test_hh_section_title_is_level_label(self):
+        self.assertEqual(app.SECTION_TITLE["hh-postgresql-advanced"], "Advanced")
+
+    def _hh_group(self):
+        for g in app.build_groups_payload():
+            if g["title"] == "Вопросы с HH":
+                return g
+        return None
+
+    def test_payload_has_hh_group_with_subgroups(self):
+        g = self._hh_group()
+        self.assertIsNotNone(g)
+        self.assertIn("subgroups", g)
+        titles = [sg["title"] for sg in g["subgroups"]]
+        self.assertIn("PostgreSQL", titles)
+
+    def test_hh_subgroup_section_is_level(self):
+        g = self._hh_group()
+        pg = next(sg for sg in g["subgroups"] if sg["title"] == "PostgreSQL")
+        sec = next(s for s in pg["sections"] if s["key"] == "hh-postgresql-advanced")
+        self.assertEqual(sec["title"], "Advanced")
+        self.assertGreaterEqual(sec["count"], 1)
+
+    def test_hh_keys_not_in_other_group(self):
+        for g in app.build_groups_payload():
+            if g["title"] == "Прочее":
+                keys = [s["key"] for s in g.get("sections", [])]
+                self.assertNotIn("hh-postgresql-advanced", keys)
+
+
+class HHFrontendTests(unittest.TestCase):
+    def test_render_side_handles_subgroups(self):
+        self.assertIn("g.subgroups", app.PAGE)
+        self.assertIn('class="shead"', app.PAGE)
+
+    def test_collapse_listener_matches_shead(self):
+        self.assertIn(".closest('.ghead,.shead')", app.PAGE)
+
+    def test_section_title_composes_subgroup(self):
+        self.assertIn("sg.title+' — '+s.title", app.PAGE)
+
+    def test_level_filter_has_hh_levels(self):
+        for lvl in ("Advanced", "Intermediate", "Basic"):
+            self.assertIn('<option value="%s">%s</option>' % (lvl, lvl), app.PAGE)
+
+    def test_badge_styles_for_hh_levels(self):
+        for sel in (".b-Advanced", ".b-Intermediate", ".b-Basic"):
+            self.assertIn(sel, app.PAGE)
+
+    def test_subgroup_css_present(self):
+        self.assertIn(".subgrp", app.PAGE)
+
+    def test_collapsed_group_hides_subgroups(self):
+        # При свёрнутой группе должны скрываться и подгруппы (.subgrp), а не только
+        # .sec — иначе заголовки тем (java/docker/oop) висят без содержимого.
+        self.assertIn("aside .grp.collapsed .subgrp", app.PAGE)
 
 
 if __name__ == "__main__":

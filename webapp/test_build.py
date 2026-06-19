@@ -68,3 +68,12 @@ class BuildTest(unittest.TestCase):
                 found_rel = True
         self.assertTrue(found_rel,
                         "не найдено ни одного относительного assets/ в jddoc")
+
+    def test_index_has_hh_group_with_subgroups(self):
+        with open(os.path.join(self.tmp, "api/index.json"),
+                  encoding="utf-8") as fh:
+            idx = json.load(fh)
+        hh = next((g for g in idx["groups"] if g["title"] == "Вопросы с HH"), None)
+        self.assertIsNotNone(hh, "нет группы «Вопросы с HH» в статике")
+        self.assertIn("subgroups", hh)
+        self.assertTrue(any(sg["title"] == "PostgreSQL" for sg in hh["subgroups"]))
