@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 THEORY = os.path.join(ROOT, "theory")
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import app  # noqa: E402
 
 
 class TheoryLayoutTest(unittest.TestCase):
@@ -34,6 +38,40 @@ class TheoryLayoutTest(unittest.TestCase):
     def test_old_dirs_removed(self):
         self.assertFalse(os.path.isdir(os.path.join(ROOT, "knowledge-base")))
         self.assertFalse(os.path.isdir(os.path.join(ROOT, "java-docs")))
+
+
+class LoadTheoryTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        app.THEORY[:] = []
+        app.THEORY_HTML.clear()
+        app.load_theory()
+
+    def test_two_groups_in_order(self):
+        self.assertEqual([g["title"] for g in app.THEORY],
+                         ["Предметные области", "Java-документация"])
+
+    def test_areas_group_has_4_subgroups_and_25_docs(self):
+        g = app.THEORY[0]
+        self.assertEqual(len(g["subgroups"]), 4)
+        self.assertEqual(sum(len(sg["docs"]) for sg in g["subgroups"]), 25)
+
+    def test_first_subgroup_title_from_readme(self):
+        self.assertEqual(app.THEORY[0]["subgroups"][0]["title"],
+                         "Фундамент языка и платформы")
+
+    def test_java_docs_group_has_26_subgroups(self):
+        self.assertEqual(len(app.THEORY[1]["subgroups"]), 26)
+
+    def test_doc_html_present_and_nonempty(self):
+        did = app.THEORY[0]["subgroups"][0]["docs"][0]["id"]
+        self.assertIn(did, app.THEORY_HTML)
+        self.assertTrue(app.THEORY_HTML[did].strip())
+
+    def test_doc_id_uses_forward_slashes(self):
+        did = app.THEORY[0]["subgroups"][0]["docs"][0]["id"]
+        self.assertIn("/", did)
+        self.assertNotIn("\\", did)
 
 
 if __name__ == "__main__":

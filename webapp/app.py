@@ -22,9 +22,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-KB_DIR = os.path.join(ROOT, "knowledge-base")
 IQ_DIR = os.path.join(ROOT, "interview-questions")
-JD_DIR = os.path.join(ROOT, "java-docs")
+THEORY_DIR = os.path.join(ROOT, "theory")
 VENDOR_DIR = os.path.join(HERE, "vendor")
 
 # Порядок и группировка разделов для боковой панели (как в README базы вопросов)
@@ -305,9 +304,8 @@ QUESTIONS = {}     # id -> полная карточка
 INDEX = []         # лёгкий список для списка/фильтра
 BLOB = {}          # id -> текст для поиска (lower)
 SECTION_TITLE = {} # base key -> заголовок раздела
-KB = []            # области знаний
-JD = []            # дерево Java-документации: [{id, title, lessons:[{id,title}]}]
-JD_HTML = {}       # "trail/lesson" -> отрендеренный html урока
+THEORY = []        # дерево теории: [{key,title,subgroups:[{key,title,docs:[{id,title}]}]}]
+THEORY_HTML = {}   # relpath-без-.md -> отрендеренный html листа
 
 
 def _title_from_h1(text):
@@ -404,66 +402,62 @@ def load_questions():
     INDEX.sort(key=lambda x: (x["section"], x["num"]))
 
 
-def load_kb():
-    for f in sorted(glob.glob(os.path.join(KB_DIR, "*.md"))):
-        name = os.path.basename(f)
-        if name == "README.md":
-            continue
-        try:
-            text = open(f, encoding="utf-8").read()
-        except Exception as e:
-            print("Пропуск %s: %s" % (f, e), file=sys.stderr)
-            continue
-        title = _title_from_h1(text) or name
-        lm = re.search(r'\*\*Уровень:\*\*\s*([^\n]+)', text)
-        level = lm.group(1).strip() if lm else ""
-        # убрать H1 и верхний блок метаданных-цитат, преобразовать [[..]] в текст
-        body = re.sub(r'(?m)^#\s+.+$', "", text, count=1)
-        body = re.sub(r'(?m)^>\s*\*\*(Уровень|Связанные[^\n]*)\*\*[^\n]*$', "", body)
-        body = re.sub(r'(?m)^>\s*\*\*Связанные[^\n]*$', "", body)
-        body = re.sub(r'\[\[([^\]]+)\]\]', r'\1', body)
-        KB.append({"id": name[:-3], "title": title, "level": level,
-                   "html": render_md(body.strip())})
-
-
-def _jd_body(text):
-    # Убрать H1, преобразовать [[..]] в текст, убрать внутренние ссылки на .md
+def _theory_body(text):
+    # Убрать H1, верхние строки-метаданные, [[..]] и внутренние ссылки на .md
     body = re.sub(r'(?m)^#\s+.+$', "", text, count=1)
+    body = re.sub(r'(?m)^>\s*\*\*(Уровень|Связанные[^\n]*)\*\*[^\n]*$', "", body)
+    body = re.sub(r'(?m)^>\s*\*\*Связанные[^\n]*$', "", body)
     body = re.sub(r'\[\[([^\]]+)\]\]', r'\1', body)
     body = re.sub(r'\[([^\]]+)\]\((?:[^)]*\.md(?:#[^)]*)?)\)', r'\1', body)
     return body.strip()
 
 
-def load_java_docs():
-    if not os.path.isdir(JD_DIR):
+def _folder_title(folder, fallback):
+    readme = os.path.join(folder, "README.md")
+    if os.path.isfile(readme):
+        try:
+            return _title_from_h1(open(readme, encoding="utf-8").read()) or fallback
+        except Exception:
+            pass
+    return fallback
+
+
+def load_theory():
+    """Рекурсивный обход theory/: группа -> подгруппа -> листья (*.md).
+    Заголовки групп/подгрупп — из README.md (H1); листья — из H1 файла."""
+    if not os.path.isdir(THEORY_DIR):
         return
-    for trail_dir in sorted(glob.glob(os.path.join(JD_DIR, "*"))):
-        if not os.path.isdir(trail_dir):
+    for grp_dir in sorted(glob.glob(os.path.join(THEORY_DIR, "*"))):
+        if not os.path.isdir(grp_dir) or os.path.basename(grp_dir) == "assets":
             continue
-        trail_id = os.path.basename(trail_dir)
-        readme = os.path.join(trail_dir, "README.md")
-        trail_title = trail_id
-        if os.path.isfile(readme):
-            try:
-                trail_title = _title_from_h1(open(readme, encoding="utf-8").read()) or trail_id
-            except Exception:
-                pass
-        lessons = []
-        for f in sorted(glob.glob(os.path.join(trail_dir, "*.md"))):
-            name = os.path.basename(f)
-            if name == "README.md":
+        gname = os.path.basename(grp_dir)
+        subgroups = []
+        for sub_dir in sorted(glob.glob(os.path.join(grp_dir, "*"))):
+            if not os.path.isdir(sub_dir) or os.path.basename(sub_dir) == "assets":
                 continue
-            try:
-                text = open(f, encoding="utf-8").read()
-            except Exception as e:
-                print("Пропуск %s: %s" % (f, e), file=sys.stderr)
-                continue
-            lid = name[:-3]
-            title = _title_from_h1(text) or lid
-            JD_HTML["%s/%s" % (trail_id, lid)] = render_md(_jd_body(text))
-            lessons.append({"id": lid, "title": title})
-        if lessons:
-            JD.append({"id": trail_id, "title": trail_title, "lessons": lessons})
+            docs = []
+            for f in sorted(glob.glob(os.path.join(sub_dir, "*.md"))):
+                if os.path.basename(f) == "README.md":
+                    continue
+                try:
+                    text = open(f, encoding="utf-8").read()
+                except Exception as e:
+                    print("Пропуск %s: %s" % (f, e), file=sys.stderr)
+                    continue
+                rel = os.path.relpath(f, THEORY_DIR)[:-3].replace(os.sep, "/")
+                title = _title_from_h1(text) or os.path.basename(f)[:-3]
+                THEORY_HTML[rel] = render_md(_theory_body(text))
+                docs.append({"id": rel, "title": title})
+            if docs:
+                subgroups.append({
+                    "key": "th:%s/%s" % (gname, os.path.basename(sub_dir)),
+                    "title": _folder_title(sub_dir, os.path.basename(sub_dir)),
+                    "docs": docs,
+                })
+        if subgroups:
+            THEORY.append({"key": "th:%s" % gname,
+                           "title": _folder_title(grp_dir, gname),
+                           "subgroups": subgroups})
 
 
 def build_groups_payload():
@@ -1147,12 +1141,10 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/index":
             return self._json({"groups": build_groups_payload(),
                                "questions": INDEX})
-        if path == "/api/kb":
-            return self._json(KB)
-        if path == "/api/jd":
-            return self._json(JD)
-        if path == "/api/jddoc":
-            html_doc = JD_HTML.get(qs.get("id", ""))
+        if path == "/api/theory":
+            return self._json(THEORY)
+        if path == "/api/theorydoc":
+            html_doc = THEORY_HTML.get(qs.get("id", ""))
             return self._json({"html": html_doc}) if html_doc is not None \
                 else self._send(404, "{}")
         if path == "/vendor/mermaid.min.js":
@@ -1199,8 +1191,8 @@ _ASSET_MIME = {".gif": "image/gif", ".png": "image/png", ".jpg": "image/jpeg",
 
 def resolve_asset(rel):
     """rel — путь после /assets/. Возвращает (abspath, mime) или None.
-    Защита от обхода каталога: результат обязан лежать внутри java-docs/assets."""
-    base = os.path.normpath(os.path.join(JD_DIR, "assets"))
+    Защита от обхода каталога: результат обязан лежать внутри theory/02-java-docs/assets."""
+    base = os.path.normpath(os.path.join(THEORY_DIR, "02-java-docs", "assets"))
     fp = os.path.normpath(os.path.join(base, rel.lstrip("/")))
     if fp != base and not fp.startswith(base + os.sep):
         return None
@@ -1214,10 +1206,9 @@ def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get("PORT", 8000))
     print("Парсинг базы знаний…")
     load_questions()
-    load_kb()
-    load_java_docs()
-    print("  вопросов: %d в %d разделах; областей знаний: %d; трейлов Java-доки: %d"
-          % (len(QUESTIONS), len(SECTION_TITLE), len(KB), len(JD)))
+    load_theory()
+    print("  вопросов: %d в %d разделах; групп теории: %d; документов теории: %d"
+          % (len(QUESTIONS), len(SECTION_TITLE), len(THEORY), len(THEORY_HTML)))
     url = "http://127.0.0.1:%d/" % port
     srv = ThreadingHTTPServer(("127.0.0.1", port), Handler)
     print("Сервер запущен: %s  (Ctrl+C для остановки)" % url)

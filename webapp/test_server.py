@@ -15,8 +15,8 @@ class ServerSmokeTest(unittest.TestCase):
     def setUpClass(cls):
         if not app.QUESTIONS:
             app.load_questions()
-            app.load_kb()
-            app.load_java_docs()
+        if not app.THEORY:
+            app.load_theory()
         cls.srv = ThreadingHTTPServer(("127.0.0.1", 0), app.Handler)
         cls.port = cls.srv.server_address[1]
         cls.t = threading.Thread(target=cls.srv.serve_forever, daemon=True)
@@ -44,6 +44,21 @@ class ServerSmokeTest(unittest.TestCase):
         data = json.loads(body)
         self.assertIn("questions", data)
         self.assertIn("groups", data)
+
+    def test_api_theory_ok(self):
+        status, body = self._get("/api/theory")
+        self.assertEqual(status, 200)
+        data = json.loads(body)
+        self.assertEqual(len(data), 2)
+        self.assertIn("subgroups", data[0])
+
+    def test_api_theorydoc_ok(self):
+        import urllib.parse
+        th = json.loads(self._get("/api/theory")[1])
+        did = th[0]["subgroups"][0]["docs"][0]["id"]
+        status, body = self._get("/api/theorydoc?id=" + urllib.parse.quote(did))
+        self.assertEqual(status, 200)
+        self.assertIn("html", json.loads(body))
 
 
 if __name__ == "__main__":
