@@ -104,5 +104,43 @@ class LightboxMarkupTest(unittest.TestCase):
         self.assertIn('function lbInit', app.PAGE)
 
 
+class GroupDescTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not app.QUESTIONS:
+            app.load_questions()
+        if not app.THEORY:
+            app.THEORY[:] = []
+            app.THEORY_HTML.clear()
+            app.load_theory()
+        cls.groups = app.build_groups_payload()
+
+    def _group(self, title):
+        return next((g for g in self.groups if g["title"] == title), None)
+
+    def test_hh_group_has_desc_with_source(self):
+        g = self._group("Вопросы с HH")
+        self.assertIsNotNone(g)
+        self.assertTrue(g.get("desc", "").strip())
+        self.assertIn("hh-skill-verifications-quizzes", g["desc"])
+
+    def test_thematic_groups_have_desc(self):
+        for t in ("Фундамент языка и платформы", "Проектирование и инженерная культура",
+                  "Backend-экосистема", "Распределённые системы и эксплуатация"):
+            g = self._group(t)
+            self.assertIsNotNone(g, t)
+            self.assertTrue(g.get("desc", "").strip(), t)
+
+    def test_theory_groups_have_desc(self):
+        for g in app.THEORY:
+            self.assertTrue(g.get("desc", "").strip(), g["title"])
+
+
+class GroupDescMarkupTest(unittest.TestCase):
+    def test_function_present(self):
+        self.assertIn('function showGroupDesc', app.PAGE)
+        self.assertIn('function findGroup', app.PAGE)
+
+
 if __name__ == "__main__":
     unittest.main()

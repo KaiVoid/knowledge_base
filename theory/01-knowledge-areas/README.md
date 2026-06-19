@@ -49,6 +49,12 @@
 | 22 | Контейнеры и DevOps (Docker, Kubernetes, CI/CD) | [22-containers-devops.md](04-distributed-and-ops/22-containers-devops.md) |
 | 23 | Безопасность приложений | [23-security.md](04-distributed-and-ops/23-security.md) |
 
+## Источники
+
+У каждой области — 3–4 проверенных источника, указанных в самом файле области. Приоритет
+достоверности: официальная документация (Oracle, Spring, Hibernate, Apache, Kubernetes, OWASP
+и т.п.), авторитетные ресурсы (Baeldung, Jenkov, refactoring.guru), признанные книги и их авторы.
+
 ---
 
 → База вопросов для собеседования: [`../../interview-questions/README.md`](../../interview-questions/README.md)

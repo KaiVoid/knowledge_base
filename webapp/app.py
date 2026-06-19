@@ -55,6 +55,16 @@ HH_LEVEL_ORDER = ["advanced", "intermediate", "basic"]
 HH_LEVEL_TITLE = {"advanced": "Advanced", "intermediate": "Intermediate",
                   "basic": "Basic"}
 
+# Описания верхнеуровневых групп вкладки «Вопросы»: заголовок группы -> md-файл
+# (путь относительно IQ_DIR). Рендерится в поле desc группы (см. build_groups_payload).
+Q_GROUP_DESC = {
+    "Фундамент языка и платформы": "groups/01-language-and-platform.md",
+    "Проектирование и инженерная культура": "groups/02-design-and-engineering.md",
+    "Backend-экосистема": "groups/03-backend-ecosystem.md",
+    "Распределённые системы и эксплуатация": "groups/04-distributed-and-ops.md",
+    HH_GROUP_TITLE: "hh/README.md",
+}
+
 # ---------------------------------------------------------------------------
 # Подсветка кода (серверная, без внешних зависимостей)
 # ---------------------------------------------------------------------------
@@ -412,6 +422,17 @@ def _theory_body(text):
     return body.strip()
 
 
+def _render_desc_file(path):
+    """Отрендерить markdown-описание группы в html (H1 убирается, внутренние
+    .md-ссылки превращаются в текст; внешние URL сохраняются). '' если нет файла."""
+    if not os.path.isfile(path):
+        return ""
+    try:
+        return render_md(_theory_body(open(path, encoding="utf-8").read()))
+    except Exception:
+        return ""
+
+
 def _folder_title(folder, fallback):
     readme = os.path.join(folder, "README.md")
     if os.path.isfile(readme):
@@ -455,9 +476,22 @@ def load_theory():
                     "docs": docs,
                 })
         if subgroups:
-            THEORY.append({"key": "th:%s" % gname,
-                           "title": _folder_title(grp_dir, gname),
-                           "subgroups": subgroups})
+            grp = {"key": "th:%s" % gname,
+                   "title": _folder_title(grp_dir, gname),
+                   "subgroups": subgroups}
+            desc = _render_desc_file(os.path.join(grp_dir, "README.md"))
+            if desc:
+                grp["desc"] = desc
+            THEORY.append(grp)
+
+
+def _attach_group_desc(group, title):
+    rel = Q_GROUP_DESC.get(title)
+    if rel:
+        html = _render_desc_file(os.path.join(IQ_DIR, rel))
+        if html:
+            group["desc"] = html
+    return group
 
 
 def build_groups_payload():
@@ -474,7 +508,7 @@ def build_groups_payload():
                              "count": counts.get(k, 0)})
                 seen.add(k)
         if secs:
-            groups.append({"title": gtitle, "sections": secs})
+            groups.append(_attach_group_desc({"title": gtitle, "sections": secs}, gtitle))
     # Группа «Вопросы с HH»: подгруппа = тема, раздел = уровень (из дерева папок).
     hh_subgroups = []
     for topic in HH_TOPIC_ORDER:
@@ -489,7 +523,8 @@ def build_groups_payload():
             hh_subgroups.append({"title": HH_TOPIC_TITLE.get(topic, topic),
                                  "sections": secs})
     if hh_subgroups:
-        groups.append({"title": HH_GROUP_TITLE, "subgroups": hh_subgroups})
+        groups.append(_attach_group_desc(
+            {"title": HH_GROUP_TITLE, "subgroups": hh_subgroups}, HH_GROUP_TITLE))
     extra = [{"key": k, "title": SECTION_TITLE[k], "count": counts.get(k, 0)}
              for k in SECTION_TITLE if k not in seen]
     if extra:
@@ -967,7 +1002,9 @@ async function boot(){
   try{ const _g=(localStorage.getItem('navGuide')||'elbow'); document.body.dataset.guide=_g; const gs=document.getElementById('guideSel'); if(gs) gs.value=_g; }catch(e){ document.body.dataset.guide='elbow'; }
   $('#side').addEventListener('click',e=>{
     const h=e.target.closest('.ghead,.shead');
-    if(h){ e.stopPropagation(); toggleGroup(h.dataset.grp); }
+    if(h){ e.stopPropagation(); toggleGroup(h.dataset.grp);
+      if(h.classList.contains('ghead')) showGroupDesc(h.dataset.grp);
+    }
   });
   $('#side').addEventListener('contextmenu', openCtx);
   $('#side').addEventListener('scroll', hideCtx, {passive:true});
@@ -1039,6 +1076,17 @@ function renderSide(){
   s.innerHTML=h;
 }
 function pick(id){ section=id; render(); renderSide(); window.scrollTo(0,0); }
+function findGroup(key){
+  if(key.indexOf('th:')===0) return (THEORY||[]).find(g=>g.key===key);
+  if(key.indexOf('q:')===0){ const t=key.slice(2); return (DATA.groups||[]).find(g=>g.title===t); }
+  return null;
+}
+function showGroupDesc(key){
+  const g=findGroup(key), m=$('#main'); if(!g||!m) return;
+  const body=(g.desc&&g.desc.trim())?`<div class="md">${g.desc}</div>`:'<div class="muted">Описание группы пока не добавлено.</div>';
+  m.innerHTML=`<div class="kb"><div class="page-head"><h2 style="margin-top:0">${esc(g.title)}</h2></div>${body}</div>`;
+  runMermaid(); window.scrollTo(0,0);
+}
 let _t=null;
 function onSearch(){ clearTimeout(_t); _t=setTimeout(render,180); }
 
