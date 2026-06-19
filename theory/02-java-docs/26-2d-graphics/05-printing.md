@@ -185,7 +185,7 @@ public class HelloWorldPrinter
 > Традиционно пользователь хочет видеть окна настройки страницы и печати. В диалоге печати можно
 > выбрать принтер, указать печатаемые страницы и задать число копий.
 
-![Диалог печати (оригинал)](../../figures/2d/print-dialog.gif)
+![Диалог печати (оригинал)](https://docs.oracle.com/javase/tutorial/figures/2d/print-dialog.gif)
 
 > *Подпись оригинала: рисунок представляет диалог печати.*
 
@@ -218,7 +218,7 @@ PrinterJob pj = PrinterJob.getPrinterJob();
 [`PageFormat`](https://docs.oracle.com/javase/8/docs/api/java/awt/print/PageFormat.html), можно
 с помощью диалога настройки страницы.
 
-![Диалог настройки страницы (оригинал)](../../figures/2d/page-setup-dialog.gif)
+![Диалог настройки страницы (оригинал)](https://docs.oracle.com/javase/tutorial/figures/2d/page-setup-dialog.gif)
 
 > *Подпись оригинала: рисунок представляет окно диалога настройки страницы.*
 
@@ -358,7 +358,7 @@ for (int line=start; line<end; line++) {
 
 API службы печати Java состоит из четырёх пакетов:
 
-![Четыре пакета, необходимых для печати (оригинал)](../../figures/2d/JPS.gif)
+![Четыре пакета, необходимых для печати (оригинал)](https://docs.oracle.com/javase/tutorial/figures/2d/JPS.gif)
 
 > *Подпись оригинала: рисунок представляет четыре пакета, необходимых для печати.*
 
@@ -460,7 +460,7 @@ java.awt.Component.printAll(Graphics g);
 
 Следующий рисунок представляет простой пользовательский интерфейс.
 
-![Печать 12 строк в окне (оригинал)](../../figures/2d/printui.png)
+![Печать 12 строк в окне (оригинал)](https://docs.oracle.com/javase/tutorial/figures/2d/printui.png)
 
 > *Подпись оригинала: печать 12 строк в окне.*
 

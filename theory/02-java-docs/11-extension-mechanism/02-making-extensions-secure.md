@@ -30,7 +30,7 @@
 
 ## Установка привилегий для расширений (Setting Privileges for Extensions)
 
-Если в системе действует [менеджер безопасности](../../essential/environment/security.html)
+Если в системе действует [менеджер безопасности](https://docs.oracle.com/javase/tutorial/essential/environment/security.html)
 (security manager), то для того, чтобы любое программное обеспечение, включая программные
 расширения, могло выполнять операции, чувствительные с точки зрения безопасности
 (security-sensitive operations), должны быть выполнены следующие условия:
@@ -185,7 +185,7 @@ grant codeBase "file:${java.home}/lib/ext/area.jar" {
 Вы можете использовать файл политики, чтобы наложить на разрешения, предоставляемые расширениям,
 дополнительные ограничения, потребовав, чтобы расширения были подписаны доверенной стороной (trusted
 entity). (Для обзора подписывания и проверки JAR-файлов см. урок
-[Signing JAR Files](../../deployment/jar/signing.html) в этом руководстве.)
+[Signing JAR Files](https://docs.oracle.com/javase/tutorial/deployment/jar/signing.html) в этом руководстве.)
 
 Чтобы разрешить проверку подписи (signature verification) расширений или другого программного
 обеспечения в связке с предоставлением разрешений, файл политики должен содержать *запись хранилища

@@ -66,28 +66,28 @@ JAXB RI (эталонной реализации — *Reference Implementation*)
 
 | Имя примера | Описание |
 |---|---|
-| [Modify Marshal](basic.html#bnbaz) | Демонстрирует, как изменить дерево содержимого Java. |
-| [Unmarshal Validate](basic.html#bnbbc) | Демонстрирует, как включить проверку во время демаршалинга. |
+| [Modify Marshal](https://docs.oracle.com/javase/tutorial/jaxb/intro/basic.html#bnbaz) | Демонстрирует, как изменить дерево содержимого Java. |
+| [Unmarshal Validate](https://docs.oracle.com/javase/tutorial/jaxb/intro/basic.html#bnbbc) | Демонстрирует, как включить проверку во время демаршалинга. |
 
 ### Примеры настройки JAXB
 
 | Имя примера | Описание |
 |---|---|
-| [Customize Inline](custom.html#bnbbz) | Демонстрирует, как настроить привязки JAXB по умолчанию с помощью встроенных аннотаций в XML-схеме. |
-| [Datatype Converter](custom.html#bnbci) | Иллюстрирует альтернативные, более краткие привязки определений XML simpleType к типам данных Java; похож на пример Customize Inline. |
-| [External Customize](custom.html#bnbcs) | Иллюстрирует, как использовать внешний файл объявлений привязки, чтобы передать настройки привязки для схемы, доступной только для чтения, компилятору привязок JAXB. |
+| [Customize Inline](https://docs.oracle.com/javase/tutorial/jaxb/intro/custom.html#bnbbz) | Демонстрирует, как настроить привязки JAXB по умолчанию с помощью встроенных аннотаций в XML-схеме. |
+| [Datatype Converter](https://docs.oracle.com/javase/tutorial/jaxb/intro/custom.html#bnbci) | Иллюстрирует альтернативные, более краткие привязки определений XML simpleType к типам данных Java; похож на пример Customize Inline. |
+| [External Customize](https://docs.oracle.com/javase/tutorial/jaxb/intro/custom.html#bnbcs) | Иллюстрирует, как использовать внешний файл объявлений привязки, чтобы передать настройки привязки для схемы, доступной только для чтения, компилятору привязок JAXB. |
 
 ### Примеры Java-в-схему JAXB
 
 | Имя примера | Описание |
 |---|---|
-| [Create Marshal](j2schema.html#bnbcw) | Демонстрирует, как с помощью класса ObjectFactory создать дерево содержимого Java и сериализовать (marshal) его в XML-данные. Также показывает, как добавить содержимое в JAXB-свойство типа List. |
-| [XmlAccessorOrder](j2schema.html#bnbcz) | Иллюстрирует, как использовать аннотации отображения @XmlAccessorOrder и @XmlType.propOrder в Java-классах, чтобы управлять порядком, в котором XML-содержимое маршалится или демаршалится Java-типом. |
-| [XmlAdapter](j2schema.html#bnbdf) | Иллюстрирует, как использовать интерфейс XmlAdapter и аннотацию @XmlJavaTypeAdapter для пользовательского отображения XML-содержимого в HashMap (поле) и обратно, где ключом служит целое число (int), а значением — строка (String). |
-| [XmlAttribute](j2schema.html#bnbdi) | Иллюстрирует, как использовать аннотацию @XmlAttribute, чтобы свойство или поле обрабатывалось как XML-атрибут. |
-| [XmlRootElement](j2schema.html#bnbdl) | Иллюстрирует, как использовать аннотацию @XmlRootElement, чтобы задать имя XML-элемента для XML-схемного типа соответствующего класса. |
-| [XmlSchemaType Class](j2schema.html#bnbdo) | Иллюстрирует, как использовать аннотацию @XmlSchemaType, чтобы настроить отображение свойства или поля на встроенный тип XML. |
-| [XmlType](j2schema.html#bnbdr) | Иллюстрирует, как использовать аннотацию @XmlType, чтобы отобразить класс или enum-тип на тип XML-схемы. |
+| [Create Marshal](https://docs.oracle.com/javase/tutorial/jaxb/intro/j2schema.html#bnbcw) | Демонстрирует, как с помощью класса ObjectFactory создать дерево содержимого Java и сериализовать (marshal) его в XML-данные. Также показывает, как добавить содержимое в JAXB-свойство типа List. |
+| [XmlAccessorOrder](https://docs.oracle.com/javase/tutorial/jaxb/intro/j2schema.html#bnbcz) | Иллюстрирует, как использовать аннотации отображения @XmlAccessorOrder и @XmlType.propOrder в Java-классах, чтобы управлять порядком, в котором XML-содержимое маршалится или демаршалится Java-типом. |
+| [XmlAdapter](https://docs.oracle.com/javase/tutorial/jaxb/intro/j2schema.html#bnbdf) | Иллюстрирует, как использовать интерфейс XmlAdapter и аннотацию @XmlJavaTypeAdapter для пользовательского отображения XML-содержимого в HashMap (поле) и обратно, где ключом служит целое число (int), а значением — строка (String). |
+| [XmlAttribute](https://docs.oracle.com/javase/tutorial/jaxb/intro/j2schema.html#bnbdi) | Иллюстрирует, как использовать аннотацию @XmlAttribute, чтобы свойство или поле обрабатывалось как XML-атрибут. |
+| [XmlRootElement](https://docs.oracle.com/javase/tutorial/jaxb/intro/j2schema.html#bnbdl) | Иллюстрирует, как использовать аннотацию @XmlRootElement, чтобы задать имя XML-элемента для XML-схемного типа соответствующего класса. |
+| [XmlSchemaType Class](https://docs.oracle.com/javase/tutorial/jaxb/intro/j2schema.html#bnbdo) | Иллюстрирует, как использовать аннотацию @XmlSchemaType, чтобы настроить отображение свойства или поля на встроенный тип XML. |
+| [XmlType](https://docs.oracle.com/javase/tutorial/jaxb/intro/j2schema.html#bnbdr) | Иллюстрирует, как использовать аннотацию @XmlType, чтобы отобразить класс или enum-тип на тип XML-схемы. |
 
 ## Параметры компилятора JAXB
 

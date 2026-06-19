@@ -282,7 +282,7 @@ decoder.close();
 > методы для указания того, как свойство должно отображаться в листе свойств (*property sheet*).
 > На следующем рисунке показано окно свойств, содержащее свойства `myBean1`:
 
-![Рисунок: свойства myBean1 в окне свойств (Properties window) — оригинал Oracle](../../figures/javabeans/customization.gif)
+![Рисунок: свойства myBean1 в окне свойств (Properties window) — оригинал Oracle](https://docs.oracle.com/javase/tutorial/figures/javabeans/customization.gif)
 
 *Подпись (перевод оригинала): этот рисунок представляет свойства `myBean1` в окне свойств.*
 
