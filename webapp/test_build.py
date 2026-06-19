@@ -23,7 +23,7 @@ class BuildTest(unittest.TestCase):
         self.assertNotIn("const STATIC = false;", html)
 
     def test_core_json_valid(self):
-        for rel in ("api/index.json", "api/kb.json", "api/jd.json",
+        for rel in ("api/index.json", "api/theory.json",
                     "api/search-blob.json"):
             p = os.path.join(self.tmp, rel)
             self.assertTrue(os.path.isfile(p), rel)
@@ -39,9 +39,9 @@ class BuildTest(unittest.TestCase):
         n = len(glob.glob(os.path.join(self.tmp, "api", "q", "*.json")))
         self.assertEqual(n, len(app.QUESTIONS))
 
-    def test_per_jddoc_count_and_no_slash_in_names(self):
-        files = glob.glob(os.path.join(self.tmp, "api", "jddoc", "*.json"))
-        self.assertEqual(len(files), len(app.JD_HTML))
+    def test_per_theorydoc_count_and_no_slash_in_names(self):
+        files = glob.glob(os.path.join(self.tmp, "api", "theorydoc", "*.json"))
+        self.assertEqual(len(files), len(app.THEORY_HTML))
         for f in files:
             self.assertNotIn("/", os.path.basename(f)[:-5])
 
@@ -59,7 +59,7 @@ class BuildTest(unittest.TestCase):
         # в статике пути картинок относительные (assets/...), не /assets/...,
         # чтобы работать из подпути GitHub Pages
         found_rel = False
-        for f in glob.glob(os.path.join(self.tmp, "api", "jddoc", "*.json")):
+        for f in glob.glob(os.path.join(self.tmp, "api", "theorydoc", "*.json")):
             with open(f, encoding="utf-8") as fh:
                 html = json.load(fh)["html"]
             self.assertNotIn('src="/assets/', html,
@@ -67,7 +67,7 @@ class BuildTest(unittest.TestCase):
             if 'src="assets/' in html:
                 found_rel = True
         self.assertTrue(found_rel,
-                        "не найдено ни одного относительного assets/ в jddoc")
+                        "не найдено ни одного относительного assets/ в theorydoc")
 
     def test_index_has_hh_group_with_subgroups(self):
         with open(os.path.join(self.tmp, "api/index.json"),

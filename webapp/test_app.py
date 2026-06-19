@@ -69,7 +69,7 @@ class RenderMermaidTests(unittest.TestCase):
 
 class ResolveAssetTests(unittest.TestCase):
     def setUp(self):
-        self.base = os.path.join(app.JD_DIR, "assets", "__pytest__")
+        self.base = os.path.join(app.THEORY_DIR, "02-java-docs", "assets", "__pytest__")
         os.makedirs(self.base, exist_ok=True)
         self.fp = os.path.join(self.base, "p.png")
         with open(self.fp, "wb") as fh:

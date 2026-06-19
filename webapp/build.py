@@ -18,10 +18,8 @@ def _ensure_loaded():
     """Идемпотентно загрузить данные в глобалы app (один раз на процесс)."""
     if not app.QUESTIONS:
         app.load_questions()
-    if not app.KB:
-        app.load_kb()
-    if not app.JD:
-        app.load_java_docs()
+    if not app.THEORY:
+        app.load_theory()
 
 
 def _write(path, text):
@@ -51,17 +49,16 @@ def build(dist_dir=None):
 
     _json(os.path.join(dist, "api", "index.json"),
           {"groups": app.build_groups_payload(), "questions": app.INDEX})
-    _json(os.path.join(dist, "api", "kb.json"), app.KB)
-    _json(os.path.join(dist, "api", "jd.json"), app.JD)
+    _json(os.path.join(dist, "api", "theory.json"), app.THEORY)
     _json(os.path.join(dist, "api", "search-blob.json"), app.BLOB)
     for qid, q in app.QUESTIONS.items():
         _json(os.path.join(dist, "api", "q", qid + ".json"), q)
-    for did, html_doc in app.JD_HTML.items():
+    for did, html_doc in app.THEORY_HTML.items():
         fname = did.replace("/", "__") + ".json"
         # в статике пути картинок относительные (assets/...), чтобы открываться
         # из подпути GitHub Pages; на сервере остаётся абсолютный /assets/.
         html_doc = html_doc.replace('src="/assets/', 'src="assets/')
-        _json(os.path.join(dist, "api", "jddoc", fname), {"html": html_doc})
+        _json(os.path.join(dist, "api", "theorydoc", fname), {"html": html_doc})
 
     src = os.path.join(app.VENDOR_DIR, "mermaid.min.js")
     if os.path.isfile(src):
@@ -70,7 +67,7 @@ def build(dist_dir=None):
 
     # Оригиналы диаграмм: java-docs/assets -> dist/assets, чтобы относительные
     # ссылки assets/... в уроках открывались на статическом сайте.
-    assets_src = os.path.join(app.JD_DIR, "assets")
+    assets_src = os.path.join(app.THEORY_DIR, "02-java-docs", "assets")
     if os.path.isdir(assets_src):
         shutil.copytree(assets_src, os.path.join(dist, "assets"))
     return dist
@@ -78,8 +75,8 @@ def build(dist_dir=None):
 
 def main():
     dist = build()
-    print("Собрано в %s: вопросов %d, областей %d, уроков Java-доки %d"
-          % (dist, len(app.QUESTIONS), len(app.KB), len(app.JD_HTML)))
+    print("Собрано в %s: вопросов %d, документов теории %d"
+          % (dist, len(app.QUESTIONS), len(app.THEORY_HTML)))
 
 
 if __name__ == "__main__":
