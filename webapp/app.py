@@ -547,32 +547,78 @@ label.chk{display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(-
 .wrap{display:flex;align-items:flex-start}
 aside{width:300px;min-width:300px;height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px;
 background:var(--panel);border-right:1px solid var(--line);padding:12px}
-aside .grp{margin-bottom:14px}
-aside .grp>h3{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 6px}
-aside .grp>h3.ghead{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-radius:7px;padding:3px 6px;margin:0 0 4px}
+aside .grp{margin-bottom:18px}
+aside .grp>h3{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0 0 6px}
+aside .grp>h3.ghead{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-weight:700;border-radius:8px;padding:5px 8px;margin:0 0 7px}
 aside .grp>h3.ghead:hover{background:#eef2ff;color:var(--ink)}
-aside .grp>h3.ghead .chev{font-size:9px;line-height:1;transition:transform .15s;opacity:.7}
+aside .grp>h3.ghead .chev{font-size:9px;line-height:1;transition:transform .15s;opacity:.55}
 aside .grp.collapsed>h3.ghead .chev{transform:rotate(-90deg)}
 aside .grp.collapsed .sec{display:none}
 aside .grp.collapsed .subgrp{display:none}
-aside .subgrp{margin:2px 0 6px 8px}
-aside .subgrp>h4.shead{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-radius:7px;padding:3px 6px;margin:0 0 2px;font-size:12px;font-weight:600;color:var(--ink)}
+aside .subgrp{margin:5px 0 9px 12px}
+aside .subgrp>h4.shead{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;border-radius:8px;padding:4px 8px;margin:0 0 4px;font-size:12px;font-weight:600;color:var(--ink)}
 aside .subgrp>h4.shead:hover{background:#eef2ff}
-aside .subgrp>h4.shead .chev{font-size:9px;line-height:1;transition:transform .15s;opacity:.7}
+aside .subgrp>h4.shead .chev{font-size:9px;line-height:1;transition:transform .15s;opacity:.55}
 aside .subgrp.collapsed>h4.shead .chev{transform:rotate(-90deg)}
 aside .subgrp.collapsed .sec{display:none}
-aside .subgrp .sec{margin-left:6px}
+aside .subgrp .sec{margin-left:12px}
 html[data-theme="dark"] aside .grp>h3.ghead:hover{background:#1c2742}
 html[data-theme="darcula"] aside .grp>h3.ghead:hover{background:#2f65ca33}
 html[data-theme="vscode"] aside .grp>h3.ghead:hover{background:#2a2d2e}
 html[data-theme="dark"] aside .subgrp>h4.shead:hover{background:#1c2742}
 html[data-theme="darcula"] aside .subgrp>h4.shead:hover{background:#2f65ca33}
 html[data-theme="vscode"] aside .subgrp>h4.shead:hover{background:#2a2d2e}
-aside .sec{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:7px;cursor:pointer}
+aside .sec{position:relative;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;margin-left:18px;border-radius:8px;cursor:pointer;font-size:13px;line-height:1.3;color:var(--ink);transition:background .12s,color .12s}
 aside .sec:hover{background:#eef2ff}
-aside .sec.active{background:var(--accent);color:#fff}
-aside .sec .cnt{color:var(--muted);font-variant-numeric:tabular-nums}
-aside .sec.active .cnt{color:#dbe4ff}
+aside .sec.active{background:var(--accent);color:#fff;font-weight:600}
+/* направляющие дерева — переключаются через body[data-guide] */
+aside .sec::before,aside .sec::after{content:"";position:absolute;transition:background .12s,border-color .12s}
+aside .sec.allq::before,aside .sec.allq::after{display:none}
+body[data-guide="rails"] aside .sec::before{left:-10px;top:0;bottom:0;width:2px;background:var(--line)}
+body[data-guide="rails"] aside .sec:hover::before{background:var(--muted)}
+body[data-guide="rails"] aside .sec.studied::before{background:var(--jun)}
+body[data-guide="rails"] aside .sec.active::before{background:var(--accent)}
+body[data-guide="elbow"] aside .sec::before{left:-10px;top:0;bottom:0;width:2px;background:var(--line)}
+body[data-guide="elbow"] aside .sec::after{left:-10px;top:50%;width:9px;height:2px;background:var(--line)}
+body[data-guide="elbow"] aside .sec:last-child::before{bottom:auto;height:50%}
+body[data-guide="elbow"] aside .sec:hover::before,body[data-guide="elbow"] aside .sec:hover::after{background:var(--muted)}
+body[data-guide="elbow"] aside .sec.studied::before,body[data-guide="elbow"] aside .sec.studied::after{background:var(--jun)}
+body[data-guide="elbow"] aside .sec.active::before,body[data-guide="elbow"] aside .sec.active::after{background:var(--accent)}
+body[data-guide="nodes"] aside .sec::before{left:-10px;top:0;bottom:0;width:2px;background:var(--line)}
+body[data-guide="nodes"] aside .sec::after{left:-13px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--panel);border:2px solid var(--line)}
+body[data-guide="nodes"] aside .sec:hover::after{border-color:var(--muted)}
+body[data-guide="nodes"] aside .sec.studied::after{background:var(--jun);border-color:var(--jun)}
+body[data-guide="nodes"] aside .sec.active::after{background:var(--accent);border-color:var(--accent)}
+body[data-guide="bar"] aside .sec::before{left:-7px;top:7px;bottom:7px;width:3px;border-radius:3px;background:transparent}
+body[data-guide="bar"] aside .sec:hover::before{background:var(--line)}
+body[data-guide="bar"] aside .sec.studied::before{background:var(--jun)}
+body[data-guide="bar"] aside .sec.active::before{background:var(--accent)}
+/* дерево по всем уровням: рельсы и «уголки» и у подгрупп, и у разделов */
+body[data-guide="tree"] aside .sec::before{left:-10px;top:0;bottom:0;width:2px;background:var(--line)}
+body[data-guide="tree"] aside .sec::after{left:-10px;top:50%;width:9px;height:2px;background:var(--line)}
+body[data-guide="tree"] aside .sec:last-child::before{bottom:auto;height:50%}
+body[data-guide="tree"] aside .sec:hover::before,body[data-guide="tree"] aside .sec:hover::after{background:var(--muted)}
+body[data-guide="tree"] aside .sec.studied::before,body[data-guide="tree"] aside .sec.studied::after{background:var(--jun)}
+body[data-guide="tree"] aside .sec.active::before,body[data-guide="tree"] aside .sec.active::after{background:var(--accent)}
+body[data-guide="tree"] aside .subgrp{position:relative;margin-left:18px}
+body[data-guide="tree"] aside .subgrp::before{content:"";position:absolute;left:-10px;top:0;bottom:0;width:2px;background:var(--line)}
+body[data-guide="tree"] aside .subgrp .sec{margin-left:18px}
+body[data-guide="tree"] aside .subgrp>h4.shead{position:relative}
+body[data-guide="tree"] aside .subgrp>h4.shead::after{content:"";position:absolute;left:-10px;top:50%;width:10px;height:2px;background:var(--line)}
+/* контекстное меню навигации (ПКМ по списку) */
+#ctxmenu{position:fixed;z-index:50;min-width:160px;background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 26px rgba(0,0,0,.18);padding:4px;display:none;font-size:13px}
+#ctxmenu.open{display:block}
+#ctxmenu .item{padding:7px 12px;border-radius:6px;cursor:pointer;color:var(--ink);white-space:nowrap;user-select:none}
+#ctxmenu .item:hover{background:#eef2ff}
+#ctxmenu .item.disabled{opacity:.4;pointer-events:none}
+#ctxmenu .sep{height:1px;margin:4px 6px;background:var(--line)}
+html[data-theme="dark"] #ctxmenu .item:hover{background:#1c2742}
+html[data-theme="darcula"] #ctxmenu .item:hover{background:#2f65ca33}
+html[data-theme="vscode"] #ctxmenu .item:hover{background:#2a2d2e}
+aside .sec .cnt{flex:none;min-width:20px;text-align:center;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;background:var(--bg);border-radius:999px;padding:1px 7px}
+aside .sec.active .cnt{color:#fff;background:rgba(255,255,255,.22)}
+aside .sec.allq{margin-left:0;font-weight:600}
+aside .sec.allq::before{display:none}
 main{flex:1;padding:18px 22px;max-width:980px}
 .crumb{color:var(--muted);margin-bottom:12px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
@@ -685,7 +731,7 @@ border-radius:7px;padding:4px 10px;font-size:12px;white-space:nowrap;align-self:
 .kb-studybtn{margin-left:10px}
 .page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 /* подсветка изученного */
-aside .sec.studied{border-left:3px solid var(--jun)}
+/* состояния направляющих (studied/active) заданы в блоке body[data-guide] выше */
 .card.studied{border-left:3px solid var(--jun)}
 html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
 /* виджет сравнения оригинал/сгенерировано */
@@ -698,7 +744,7 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
 @media (max-width:900px){.cmp{grid-template-columns:1fr;}}
 </style>
 </head>
-<body>
+<body data-guide="elbow">
 <header>
   <h1>База знаний</h1>
   <div class="tabs">
@@ -738,6 +784,16 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
     </select>
   </div>
   <div class="rp-block">
+    <label class="rp-label" for="guideSel">Направляющие в навигации</label>
+    <select id="guideSel" onchange="setGuide(this.value)" aria-label="Стиль направляющих в навигации">
+      <option value="rails">Линии</option>
+      <option value="elbow">Дерево (разделы)</option>
+      <option value="tree">Дерево (все уровни)</option>
+      <option value="nodes">Узлы</option>
+      <option value="bar">Полоса</option>
+    </select>
+  </div>
+  <div class="rp-block">
     <label class="chk"><input type="checkbox" id="autoStudy" onchange="toggleAutoStudy()"> Автоизучение</label>
     <div class="rp-hint">Помечать «изучено» при доскролле страницы до конца.</div>
   </div>
@@ -745,10 +801,18 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
     <button class="rp-reset" onclick="resetStudied()">Сбросить просмотренное</button>
   </div>
 </aside>
+<div id="ctxmenu">
+  <div class="item" data-act="collapse">Свернуть</div>
+  <div class="item" data-act="expand">Развернуть</div>
+  <div class="sep"></div>
+  <div class="item" data-act="collapse-all">Свернуть всё</div>
+  <div class="item" data-act="expand-all">Развернуть всё</div>
+</div>
 <script src="vendor/mermaid.min.js"></script>
 <script>
 let DATA={groups:[],questions:[]}, KB=[], JD=[], tab='q', section='', jdSel='', cache={};
 let collapsed={}; try{collapsed=JSON.parse(localStorage.getItem('collapsedGroups')||'{}')||{};}catch(e){collapsed={};}
+function isCollapsed(key){ return (key in collapsed) ? !!collapsed[key] : true; }
 const $=s=>document.querySelector(s);
 let studied={}; try{studied=JSON.parse(localStorage.getItem('studied')||'{}')||{};}catch(e){studied={};}
 let autoStudy=false; try{autoStudy=localStorage.getItem('autoStudy')==='1';}catch(e){autoStudy=false;}
@@ -761,11 +825,30 @@ function sectionStudied(secKey){
   return qs.length>0 && qs.every(x=>isStudied('q:'+x.id));
 }
 
-function toggleGroup(key){
-  collapsed[key]=!collapsed[key];
-  try{localStorage.setItem('collapsedGroups',JSON.stringify(collapsed));}catch(e){}
-  renderSide();
+function saveCollapsed(){ try{localStorage.setItem('collapsedGroups',JSON.stringify(collapsed));}catch(e){} }
+function toggleGroup(key){ collapsed[key]=!isCollapsed(key); saveCollapsed(); renderSide(); }
+function setCollapsed(key,val){ if(!key) return; collapsed[key]=val; saveCollapsed(); renderSide(); }
+function collapseAll(){ $('#side').querySelectorAll('.ghead,.shead').forEach(h=>{ if(h.dataset.grp) collapsed[h.dataset.grp]=true; }); saveCollapsed(); renderSide(); }
+function expandAll(){ $('#side').querySelectorAll('.ghead,.shead').forEach(h=>{ if(h.dataset.grp) collapsed[h.dataset.grp]=false; }); saveCollapsed(); renderSide(); }
+let ctxKey=null;
+function openCtx(e){
+  e.preventDefault();
+  const head=e.target.closest('.ghead,.shead');
+  if(head){ ctxKey=head.dataset.grp; }
+  else { const g=e.target.closest('.grp'); const gh=g&&g.querySelector('.ghead'); ctxKey=gh?gh.dataset.grp:null; }
+  const m=document.getElementById('ctxmenu');
+  const col = ctxKey ? isCollapsed(ctxKey) : null;
+  const setDis=(act,dis)=>{ const el=m.querySelector('[data-act="'+act+'"]'); if(el) el.classList.toggle('disabled', dis); };
+  setDis('collapse', !ctxKey || col===true);
+  setDis('expand', !ctxKey || col===false);
+  m.classList.add('open');
+  const mw=m.offsetWidth||170, mh=m.offsetHeight||80;
+  let x=e.clientX, y=e.clientY;
+  if(x+mw>window.innerWidth) x=window.innerWidth-mw-6;
+  if(y+mh>window.innerHeight) y=window.innerHeight-mh-6;
+  m.style.left=x+'px'; m.style.top=y+'px';
 }
+function hideCtx(){ const m=document.getElementById('ctxmenu'); if(m) m.classList.remove('open'); }
 function rpClose(){ document.getElementById('rpanel').classList.remove('open'); document.getElementById('rpanelOverlay').classList.remove('open'); }
 function toggleRPanel(){ document.getElementById('rpanel').classList.toggle('open'); document.getElementById('rpanelOverlay').classList.toggle('open'); }
 
@@ -791,13 +874,28 @@ async function clientSearch(q, level, section){
   }
   return res;
 }
+function setGuide(v){ document.body.dataset.guide=v; try{localStorage.setItem('navGuide',v);}catch(e){} }
 async function boot(){
   DATA=await (await fetch(api.index())).json();
+  try{ const _g=(localStorage.getItem('navGuide')||'elbow'); document.body.dataset.guide=_g; const gs=document.getElementById('guideSel'); if(gs) gs.value=_g; }catch(e){ document.body.dataset.guide='elbow'; }
   $('#side').addEventListener('click',e=>{
     const h=e.target.closest('.ghead,.shead');
     if(h){ e.stopPropagation(); toggleGroup(h.dataset.grp); }
   });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape') rpClose(); });
+  $('#side').addEventListener('contextmenu', openCtx);
+  $('#side').addEventListener('scroll', hideCtx, {passive:true});
+  document.getElementById('ctxmenu').addEventListener('click',e=>{
+    const it=e.target.closest('.item'); if(!it) return;
+    if(it.dataset.act==='collapse') setCollapsed(ctxKey,true);
+    else if(it.dataset.act==='expand') setCollapsed(ctxKey,false);
+    else if(it.dataset.act==='collapse-all') collapseAll();
+    else if(it.dataset.act==='expand-all') expandAll();
+    hideCtx();
+  });
+  document.addEventListener('click', hideCtx);
+  window.addEventListener('scroll', hideCtx, {passive:true});
+  document.addEventListener('contextmenu', e=>{ if(!e.target.closest('#side')) hideCtx(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ rpClose(); hideCtx(); } });
   document.getElementById('autoStudy').checked=autoStudy;
   window.addEventListener('scroll', onScrollAuto, {passive:true});
   renderSide();
@@ -817,7 +915,7 @@ function renderSide(){
   if(tab==='jd'){
     if(!jdSel && JD.length && JD[0].lessons.length) jdSel=JD[0].id+'/'+JD[0].lessons[0].id;
     s.innerHTML=JD.map(tr=>{const key='jd:'+tr.id;
-      return `<div class="grp ${collapsed[key]?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(tr.title)}</h3>`+
+      return `<div class="grp ${isCollapsed(key)?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(tr.title)}</h3>`+
       tr.lessons.map(ls=>{const id=tr.id+'/'+ls.id;
         return `<div class="sec ${jdSel===id?'active':''} ${isStudied('jd:'+id)?'studied':''}" onclick="jdPick('${id}')">
           <span>${esc(ls.title)}</span></div>`;}).join('')+'</div>';}).join('')
@@ -825,23 +923,23 @@ function renderSide(){
     return;
   }
   if(tab==='kb'){
-    s.innerHTML=`<div class="grp ${collapsed['kb:areas']?'collapsed':''}"><h3 class="ghead" data-grp="kb:areas"><span class="chev">▾</span>Области знаний</h3>`+
+    s.innerHTML=`<div class="grp ${isCollapsed('kb:areas')?'collapsed':''}"><h3 class="ghead" data-grp="kb:areas"><span class="chev">▾</span>Области знаний</h3>`+
       KB.map(k=>`<div class="sec ${section===k.id?'active':''} ${isStudied('kb:'+k.id)?'studied':''}" onclick="pick('${k.id}')">
         <span>${esc(k.title)}</span></div>`).join('')+'</div>';
     return;
   }
   let total=DATA.questions.length;
-  let h=`<div class="grp"><div class="sec ${section===''?'active':''}" onclick="pick('')">
+  let h=`<div class="grp"><div class="sec allq ${section===''?'active':''}" onclick="pick('')">
     <span><b>Все вопросы</b></span><span class="cnt">${total}</span></div></div>`;
   const secHtml = sec => `<div class="sec ${section===sec.key?'active':''} ${sectionStudied(sec.key)?'studied':''}" onclick="pick('${sec.key}')">
         <span>${esc(sec.title)}</span><span class="cnt">${sec.count}</span></div>`;
   for(const g of DATA.groups){
     const key='q:'+g.title;
-    h+=`<div class="grp ${collapsed[key]?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(g.title)}</h3>`;
+    h+=`<div class="grp ${isCollapsed(key)?'collapsed':''}"><h3 class="ghead" data-grp="${esc(key)}"><span class="chev">▾</span>${esc(g.title)}</h3>`;
     if(g.subgroups){
       for(const sg of g.subgroups){
         const skey='q:'+g.title+'/'+sg.title;
-        h+=`<div class="subgrp ${collapsed[skey]?'collapsed':''}"><h4 class="shead" data-grp="${esc(skey)}"><span class="chev">▾</span>${esc(sg.title)}</h4>`;
+        h+=`<div class="subgrp ${isCollapsed(skey)?'collapsed':''}"><h4 class="shead" data-grp="${esc(skey)}"><span class="chev">▾</span>${esc(sg.title)}</h4>`;
         for(const sec of sg.sections){ h+=secHtml(sec); }
         h+='</div>';
       }
