@@ -92,5 +92,17 @@ class PageMarkupTest(unittest.TestCase):
         self.assertNotIn('function renderJD', app.PAGE)
 
 
+class LightboxMarkupTest(unittest.TestCase):
+    def test_overlay_present(self):
+        self.assertIn('id="lightbox"', app.PAGE)
+        self.assertIn('class="lb-stage"', app.PAGE)
+        self.assertIn('data-lb="close"', app.PAGE)
+
+    def test_zoom_cursor_and_functions(self):
+        self.assertIn('cursor:zoom-in', app.PAGE)
+        self.assertIn('function lbOpen', app.PAGE)
+        self.assertIn('function lbInit', app.PAGE)
+
+
 if __name__ == "__main__":
     unittest.main()

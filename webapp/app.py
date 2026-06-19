@@ -609,6 +609,18 @@ body[data-guide="tree"] aside .subgrp>h4.shead::after{content:"";position:absolu
 html[data-theme="dark"] #ctxmenu .item:hover{background:#1c2742}
 html[data-theme="darcula"] #ctxmenu .item:hover{background:#2f65ca33}
 html[data-theme="vscode"] #ctxmenu .item:hover{background:#2a2d2e}
+/* лайтбокс с зумом для изображений и диаграмм */
+#main .md img,#main .md .mermaid,#main .md .mermaid svg{cursor:zoom-in}
+body.lb-lock{overflow:hidden}
+.lb{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);overflow:hidden;overscroll-behavior:contain}
+.lb.open{display:flex}
+.lb-stage{transform-origin:center center;will-change:transform;cursor:grab;user-select:none;-webkit-user-select:none}
+.lb-stage.drag{cursor:grabbing}
+.lb-stage img,.lb-stage svg{display:block;max-width:none;max-height:none;background:#fff;border-radius:6px}
+.lb-bar{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px;box-shadow:0 8px 26px rgba(0,0,0,.4);z-index:61}
+.lb-bar button{min-width:38px;height:32px;padding:0 10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:7px;cursor:pointer;font-size:14px;line-height:1}
+.lb-bar button:hover{background:#eef2ff}
+html[data-theme="dark"] .lb-bar button:hover,html[data-theme="darcula"] .lb-bar button:hover,html[data-theme="vscode"] .lb-bar button:hover{background:#1c2742}
 aside .sec .cnt{flex:none;min-width:20px;text-align:center;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;background:var(--bg);border-radius:999px;padding:1px 7px}
 aside .sec.active .cnt{color:#fff;background:rgba(255,255,255,.22)}
 aside .sec.allq{margin-left:0;font-weight:600}
@@ -801,6 +813,15 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
   <div class="item" data-act="collapse-all">Свернуть всё</div>
   <div class="item" data-act="expand-all">Развернуть всё</div>
 </div>
+<div id="lightbox" class="lb" aria-hidden="true">
+  <div class="lb-stage"></div>
+  <div class="lb-bar">
+    <button type="button" data-lb="out" title="Уменьшить" aria-label="Уменьшить">−</button>
+    <button type="button" data-lb="in" title="Увеличить" aria-label="Увеличить">+</button>
+    <button type="button" data-lb="reset" title="Вписать в экран">Сброс</button>
+    <button type="button" data-lb="close" title="Закрыть (Esc)" aria-label="Закрыть">×</button>
+  </div>
+</div>
 <script src="vendor/mermaid.min.js"></script>
 <script>
 let DATA={groups:[],questions:[]}, THEORY=[], tab='q', section='', thSel='', cache={};
@@ -842,6 +863,80 @@ function openCtx(e){
   m.style.left=x+'px'; m.style.top=y+'px';
 }
 function hideCtx(){ const m=document.getElementById('ctxmenu'); if(m) m.classList.remove('open'); }
+/* --- лайтбокс с зумом (изображения и Mermaid-диаграммы) --- */
+let lbScale=1, lbX=0, lbY=0, lbFit=1, lbDragging=false, lbMoved=false, lbSX=0, lbSY=0;
+function lbStage(){ return document.querySelector('#lightbox .lb-stage'); }
+function lbApply(){ const s=lbStage(); if(s) s.style.transform=`translate(${lbX}px,${lbY}px) scale(${lbScale})`; }
+function lbIsOpen(){ const lb=document.getElementById('lightbox'); return !!(lb && lb.classList.contains('open')); }
+function lbOpen(node){
+  const lb=document.getElementById('lightbox'), stage=lbStage(); if(!lb||!stage) return;
+  let clone;
+  if(node.tagName==='IMG'){
+    clone=node.cloneNode(true);
+    clone.style.width=(node.naturalWidth||node.getBoundingClientRect().width)+'px';
+    clone.style.height='auto';
+  } else {
+    const svg=node.querySelector('svg');
+    if(svg){ const r0=svg.getBoundingClientRect(); clone=svg.cloneNode(true);
+      clone.style.maxWidth='none'; clone.style.maxHeight='none';
+      clone.style.width=Math.max(1,r0.width)+'px'; clone.style.height=Math.max(1,r0.height)+'px'; }
+    else clone=node.cloneNode(true);
+  }
+  stage.innerHTML=''; stage.appendChild(clone);
+  lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+  document.body.classList.add('lb-lock');
+  lbScale=1; lbX=0; lbY=0; lbApply();
+  const r=clone.getBoundingClientRect();
+  const fit=Math.min(window.innerWidth*0.92/(r.width||1), window.innerHeight*0.86/(r.height||1));
+  lbFit=(isFinite(fit)&&fit>0)?fit:1;
+  lbScale=lbFit; lbX=0; lbY=0; lbApply();
+}
+function lbClose(){
+  const lb=document.getElementById('lightbox'); if(!lb||!lb.classList.contains('open')) return;
+  lb.classList.remove('open'); lb.setAttribute('aria-hidden','true');
+  const s=lbStage(); if(s) s.innerHTML='';
+  document.body.classList.remove('lb-lock');
+}
+function lbZoom(cx,cy,factor){
+  const ns=Math.max(0.1, Math.min(16, lbScale*factor)), r=ns/lbScale;
+  lbX=cx-(cx-lbX)*r; lbY=cy-(cy-lbY)*r; lbScale=ns; lbApply();
+}
+function lbInit(){
+  const lb=document.getElementById('lightbox'); if(!lb) return;
+  $('#main').addEventListener('click', e=>{
+    if(lbIsOpen()) return;
+    const node=e.target.closest('.md img')||e.target.closest('.md .mermaid'); if(!node) return;
+    e.preventDefault(); e.stopPropagation(); lbOpen(node);
+  });
+  lb.addEventListener('click', e=>{
+    if(e.target.closest('.lb-bar')) return;
+    if(lbMoved){ lbMoved=false; return; }
+    if(e.target.closest('.lb-stage')) return;
+    lbClose();
+  });
+  lb.querySelector('.lb-bar').addEventListener('click', e=>{
+    const b=e.target.closest('button'); if(!b) return; e.stopPropagation();
+    const a=b.dataset.lb;
+    if(a==='close') lbClose();
+    else if(a==='in') lbZoom(0,0,1.25);
+    else if(a==='out') lbZoom(0,0,1/1.25);
+    else if(a==='reset'){ lbScale=lbFit; lbX=0; lbY=0; lbApply(); }
+  });
+  lb.addEventListener('wheel', e=>{ if(!lbIsOpen()) return; e.preventDefault();
+    lbZoom(e.clientX-window.innerWidth/2, e.clientY-window.innerHeight/2, e.deltaY<0?1.12:1/1.12);
+  }, {passive:false});
+  lb.addEventListener('dblclick', e=>{ if(e.target.closest('.lb-bar')) return;
+    const cx=e.clientX-window.innerWidth/2, cy=e.clientY-window.innerHeight/2;
+    const target=Math.abs(lbScale-lbFit)<0.01?1:lbFit; lbZoom(cx,cy,target/lbScale);
+  });
+  lb.querySelector('.lb-stage').addEventListener('mousedown', e=>{ e.preventDefault();
+    lbDragging=true; lbMoved=false; lbSX=e.clientX-lbX; lbSY=e.clientY-lbY; lbStage().classList.add('drag');
+  });
+  document.addEventListener('mousemove', e=>{ if(!lbDragging) return;
+    lbX=e.clientX-lbSX; lbY=e.clientY-lbSY; lbMoved=true; lbApply();
+  });
+  document.addEventListener('mouseup', ()=>{ if(lbDragging){ lbDragging=false; const s=lbStage(); if(s) s.classList.remove('drag'); } });
+}
 function rpClose(){ document.getElementById('rpanel').classList.remove('open'); document.getElementById('rpanelOverlay').classList.remove('open'); }
 function toggleRPanel(){ document.getElementById('rpanel').classList.toggle('open'); document.getElementById('rpanelOverlay').classList.toggle('open'); }
 
@@ -887,7 +982,8 @@ async function boot(){
   document.addEventListener('click', hideCtx);
   window.addEventListener('scroll', hideCtx, {passive:true});
   document.addEventListener('contextmenu', e=>{ if(!e.target.closest('#side')) hideCtx(); });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ rpClose(); hideCtx(); } });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ rpClose(); hideCtx(); lbClose(); } });
+  lbInit();
   document.getElementById('autoStudy').checked=autoStudy;
   window.addEventListener('scroll', onScrollAuto, {passive:true});
   renderSide();
