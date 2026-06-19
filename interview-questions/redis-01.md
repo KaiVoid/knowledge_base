@@ -1,7 +1,7 @@
 # Redis — часть 1 из 1
 
 > Вопросы 1–15 (в части: 15). Всего в разделе: 15.
-> Область знаний: [../knowledge-base/15-databases-sql.md](../knowledge-base/15-databases-sql.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md](../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1**
 
@@ -229,7 +229,7 @@ Redis Pub/Sub работает по принципу «fire-and-forget»: есл
 | Consumer groups | Нет | Да (масштабирование обработки) |
 | Применение | Realtime-уведомления, чаты, где потеря допустима | Надёжные очереди, event sourcing |
 
-**Вывод:** Pub/Sub — для лёгкого realtime-вещания, где потеря сообщений не критична. Когда нужна надёжность и повтор — Streams (или внешний брокер вроде Kafka/RabbitMQ, см. [область «Брокеры сообщений»](../knowledge-base/21-messaging.md)).
+**Вывод:** Pub/Sub — для лёгкого realtime-вещания, где потеря сообщений не критична. Когда нужна надёжность и повтор — Streams (или внешний брокер вроде Kafka/RabbitMQ, см. [область «Брокеры сообщений»](../theory/01-knowledge-areas/04-distributed-and-ops/21-messaging.md)).
 
 ---
 ### Вопрос 9. Что такое пайплайнинг (pipelining) в Redis?

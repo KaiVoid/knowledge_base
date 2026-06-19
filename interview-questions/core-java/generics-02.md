@@ -1,7 +1,7 @@
 # Generics (обобщения, wildcards, стирание типов) — часть 2 из 3
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 52.
-> Область знаний: [../../knowledge-base/05-generics.md](../../knowledge-base/05-generics.md)
+> Область знаний: [../../theory/01-knowledge-areas/01-language-and-platform/05-generics.md](../../theory/01-knowledge-areas/01-language-and-platform/05-generics.md)
 > Правила: [../RULES.md](../RULES.md)
 > Части: [ч.1](generics-01.md) · **ч.2** · [ч.3](generics-03.md)
 

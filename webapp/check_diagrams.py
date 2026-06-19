@@ -40,7 +40,7 @@ def scan_lesson(text):
 def missing_assets(paths, root):
     miss = []
     for p in paths:
-        if not os.path.isfile(os.path.join(root, "java-docs", p)) \
+        if not os.path.isfile(os.path.join(root, "theory", "02-java-docs", p)) \
            and not os.path.isfile(os.path.join(root, p)):
             miss.append(p)
     return miss

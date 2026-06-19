@@ -1,7 +1,7 @@
 # PostgreSQL — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 51.
-> Область знаний: [../knowledge-base/15-databases-sql.md](../knowledge-base/15-databases-sql.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md](../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1** · [ч.2](postgresql-02.md) · [ч.3](postgresql-03.md)
 

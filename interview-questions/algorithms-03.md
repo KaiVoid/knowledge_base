@@ -1,7 +1,7 @@
 # Алгоритмы и структуры данных — часть 3 из 3
 
 > Вопросы 41–60 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../knowledge-base/12-algorithms-data-structures.md](../knowledge-base/12-algorithms-data-structures.md)
+> Область знаний: [../theory/01-knowledge-areas/02-design-and-engineering/12-algorithms-data-structures.md](../theory/01-knowledge-areas/02-design-and-engineering/12-algorithms-data-structures.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](algorithms-01.md) · [ч.2](algorithms-02.md) · **ч.3**
 

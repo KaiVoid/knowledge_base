@@ -1,7 +1,7 @@
 # JVM, память и сборка мусора — часть 3 из 3
 
 > Вопросы 41–60 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../knowledge-base/02-jvm-memory-gc.md](../knowledge-base/02-jvm-memory-gc.md)
+> Область знаний: [../theory/01-knowledge-areas/01-language-and-platform/02-jvm-memory-gc.md](../theory/01-knowledge-areas/01-language-and-platform/02-jvm-memory-gc.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](jvm-gc-01.md) · [ч.2](jvm-gc-02.md) · **ч.3**
 

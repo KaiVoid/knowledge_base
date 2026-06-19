@@ -1,7 +1,7 @@
 # Apache Cassandra — часть 1 из 1
 
 > Вопросы 1–15 (в части: 15). Всего в разделе: 15.
-> Область знаний: [../knowledge-base/15-databases-sql.md](../knowledge-base/15-databases-sql.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md](../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1**
 

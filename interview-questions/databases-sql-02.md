@@ -1,7 +1,7 @@
 # Реляционные базы данных и SQL — часть 2 из 4
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 63.
-> Область знаний: [../knowledge-base/15-databases-sql.md](../knowledge-base/15-databases-sql.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md](../theory/01-knowledge-areas/03-backend-ecosystem/15-databases-sql.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](databases-sql-01.md) · **ч.2** · [ч.3](databases-sql-03.md) · [ч.4](databases-sql-04.md)
 

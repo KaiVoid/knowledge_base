@@ -1,7 +1,7 @@
 # Контейнеры и DevOps — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 51.
-> Область знаний: [../knowledge-base/22-containers-devops.md](../knowledge-base/22-containers-devops.md)
+> Область знаний: [../theory/01-knowledge-areas/04-distributed-and-ops/22-containers-devops.md](../theory/01-knowledge-areas/04-distributed-and-ops/22-containers-devops.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1** · [ч.2](containers-devops-02.md) · [ч.3](containers-devops-03.md)
 

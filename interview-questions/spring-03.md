@@ -1,7 +1,7 @@
 # Spring Framework (Core, IoC, AOP) — часть 3 из 3
 
 > Вопросы 41–60 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../knowledge-base/13-spring-core.md](../knowledge-base/13-spring-core.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/13-spring-core.md](../theory/01-knowledge-areas/03-backend-ecosystem/13-spring-core.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](spring-01.md) · [ч.2](spring-02.md) · **ч.3**
 

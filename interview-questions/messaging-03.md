@@ -1,7 +1,7 @@
 # Брокеры сообщений (Kafka, RabbitMQ) — часть 3 из 3
 
 > Вопросы 41–60 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../knowledge-base/21-messaging.md](../knowledge-base/21-messaging.md)
+> Область знаний: [../theory/01-knowledge-areas/04-distributed-and-ops/21-messaging.md](../theory/01-knowledge-areas/04-distributed-and-ops/21-messaging.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](messaging-01.md) · [ч.2](messaging-02.md) · **ч.3**
 

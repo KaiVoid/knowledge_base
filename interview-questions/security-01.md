@@ -1,7 +1,7 @@
 # Безопасность приложений — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/23-security.md](../knowledge-base/23-security.md)
+> Область знаний: [../theory/01-knowledge-areas/04-distributed-and-ops/23-security.md](../theory/01-knowledge-areas/04-distributed-and-ops/23-security.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1** · [ч.2](security-02.md) · [ч.3](security-03.md)
 

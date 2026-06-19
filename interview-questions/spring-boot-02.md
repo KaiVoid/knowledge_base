@@ -1,7 +1,7 @@
 # Spring Boot — часть 2 из 3
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/14-spring-boot.md](../knowledge-base/14-spring-boot.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/14-spring-boot.md](../theory/01-knowledge-areas/03-backend-ecosystem/14-spring-boot.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](spring-boot-01.md) · **ч.2** · [ч.3](spring-boot-03.md)
 

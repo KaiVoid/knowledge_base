@@ -1,7 +1,7 @@
 # jOOQ — часть 1 из 1
 
 > Вопросы 1–15 (в части: 15). Всего в разделе: 15.
-> Область знаний: [../knowledge-base/16-jpa-hibernate.md](../knowledge-base/16-jpa-hibernate.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/16-jpa-hibernate.md](../theory/01-knowledge-areas/03-backend-ecosystem/16-jpa-hibernate.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1**
 

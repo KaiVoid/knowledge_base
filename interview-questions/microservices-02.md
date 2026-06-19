@@ -1,7 +1,7 @@
 # Микросервисная архитектура — часть 2 из 3
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/20-microservices.md](../knowledge-base/20-microservices.md)
+> Область знаний: [../theory/01-knowledge-areas/04-distributed-and-ops/20-microservices.md](../theory/01-knowledge-areas/04-distributed-and-ops/20-microservices.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](microservices-01.md) · **ч.2** · [ч.3](microservices-03.md)
 

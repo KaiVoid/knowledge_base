@@ -1,7 +1,7 @@
 # Тестирование — часть 2 из 3
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/19-testing.md](../knowledge-base/19-testing.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/19-testing.md](../theory/01-knowledge-areas/03-backend-ecosystem/19-testing.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](testing-01.md) · **ч.2** · [ч.3](testing-03.md)
 

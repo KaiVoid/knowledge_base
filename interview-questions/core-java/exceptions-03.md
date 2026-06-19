@@ -1,7 +1,7 @@
 # Исключения (checked/unchecked, try-with-resources) — часть 3 из 3
 
 > Вопросы 41–60 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../../knowledge-base/06-exceptions.md](../../knowledge-base/06-exceptions.md)
+> Область знаний: [../../theory/01-knowledge-areas/01-language-and-platform/06-exceptions.md](../../theory/01-knowledge-areas/01-language-and-platform/06-exceptions.md)
 > Правила: [../RULES.md](../RULES.md)
 > Части: [ч.1](exceptions-01.md) · [ч.2](exceptions-02.md) · **ч.3**
 

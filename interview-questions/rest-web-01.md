@@ -1,7 +1,7 @@
 # REST, HTTP и веб-слой — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../knowledge-base/17-rest-web.md](../knowledge-base/17-rest-web.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/17-rest-web.md](../theory/01-knowledge-areas/03-backend-ecosystem/17-rest-web.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1** · [ч.2](rest-web-02.md) · [ч.3](rest-web-03.md)
 

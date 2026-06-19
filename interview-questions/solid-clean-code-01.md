@@ -1,7 +1,7 @@
 # SOLID, чистый код и рефакторинг — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/11-solid-clean-code.md](../knowledge-base/11-solid-clean-code.md)
+> Область знаний: [../theory/01-knowledge-areas/02-design-and-engineering/11-solid-clean-code.md](../theory/01-knowledge-areas/02-design-and-engineering/11-solid-clean-code.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1** · [ч.2](solid-clean-code-02.md) · [ч.3](solid-clean-code-03.md)
 

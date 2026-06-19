@@ -1,7 +1,7 @@
 # Collections Framework — часть 2 из 3
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/03-collections.md](../knowledge-base/03-collections.md)
+> Область знаний: [../theory/01-knowledge-areas/01-language-and-platform/03-collections.md](../theory/01-knowledge-areas/01-language-and-platform/03-collections.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](collections-01.md) · **ч.2** · [ч.3](collections-03.md)
 

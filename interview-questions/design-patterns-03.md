@@ -1,7 +1,7 @@
 # Паттерны проектирования — часть 3 из 3
 
 > Вопросы 41–60 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../knowledge-base/10-design-patterns.md](../knowledge-base/10-design-patterns.md)
+> Область знаний: [../theory/01-knowledge-areas/02-design-and-engineering/10-design-patterns.md](../theory/01-knowledge-areas/02-design-and-engineering/10-design-patterns.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](design-patterns-01.md) · [ч.2](design-patterns-02.md) · **ч.3**
 

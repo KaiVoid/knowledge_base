@@ -1,7 +1,7 @@
 # JPA и Hibernate — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 51.
-> Область знаний: [../knowledge-base/16-jpa-hibernate.md](../knowledge-base/16-jpa-hibernate.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/16-jpa-hibernate.md](../theory/01-knowledge-areas/03-backend-ecosystem/16-jpa-hibernate.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1** · [ч.2](jpa-hibernate-02.md) · [ч.3](jpa-hibernate-03.md)
 

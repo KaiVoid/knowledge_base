@@ -1,7 +1,7 @@
 # ООП (инкапсуляция, наследование, полиморфизм, интерфейсы) — часть 3 из 3
 
 > Вопросы 41–60 (в части: 20). Всего в разделе: 60.
-> Область знаний: [../../knowledge-base/01-core-java-syntax-oop.md](../../knowledge-base/01-core-java-syntax-oop.md)
+> Область знаний: [../../theory/01-knowledge-areas/01-language-and-platform/01-core-java-syntax-oop.md](../../theory/01-knowledge-areas/01-language-and-platform/01-core-java-syntax-oop.md)
 > Правила: [../RULES.md](../RULES.md)
 > Части: [ч.1](oop-01.md) · [ч.2](oop-02.md) · **ч.3**
 

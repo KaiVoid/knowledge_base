@@ -1,7 +1,7 @@
 # Системы сборки: Maven и Gradle — часть 2 из 2
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 40.
-> Область знаний: [../knowledge-base/18-build-tools.md](../knowledge-base/18-build-tools.md)
+> Область знаний: [../theory/01-knowledge-areas/03-backend-ecosystem/18-build-tools.md](../theory/01-knowledge-areas/03-backend-ecosystem/18-build-tools.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](build-tools-01.md) · **ч.2**
 

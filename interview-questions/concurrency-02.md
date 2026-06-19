@@ -1,7 +1,7 @@
 # Многопоточность и concurrency — часть 2 из 4
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 69.
-> Область знаний: [../knowledge-base/04-concurrency.md](../knowledge-base/04-concurrency.md)
+> Область знаний: [../theory/01-knowledge-areas/01-language-and-platform/04-concurrency.md](../theory/01-knowledge-areas/01-language-and-platform/04-concurrency.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](concurrency-01.md) · **ч.2** · [ч.3](concurrency-03.md) · [ч.4](concurrency-04.md)
 

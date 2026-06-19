@@ -1,7 +1,7 @@
 # Ввод-вывод: IO и NIO — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/07-io-nio.md](../knowledge-base/07-io-nio.md)
+> Область знаний: [../theory/01-knowledge-areas/01-language-and-platform/07-io-nio.md](../theory/01-knowledge-areas/01-language-and-platform/07-io-nio.md)
 > Правила: [RULES.md](RULES.md)
 > Части: **ч.1** · [ч.2](io-nio-02.md) · [ч.3](io-nio-03.md)
 

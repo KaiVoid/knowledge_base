@@ -1,7 +1,7 @@
 # Основы языка (типы, строки, autoboxing, immutability) — часть 1 из 3
 
 > Вопросы 1–20 (в части: 20). Всего в разделе: 55.
-> Область знаний: [../../knowledge-base/01-core-java-syntax-oop.md](../../knowledge-base/01-core-java-syntax-oop.md)
+> Область знаний: [../../theory/01-knowledge-areas/01-language-and-platform/01-core-java-syntax-oop.md](../../theory/01-knowledge-areas/01-language-and-platform/01-core-java-syntax-oop.md)
 > Правила: [../RULES.md](../RULES.md)
 > Части: **ч.1** · [ч.2](basics-02.md) · [ч.3](basics-03.md)
 

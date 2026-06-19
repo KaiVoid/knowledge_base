@@ -1,7 +1,7 @@
 # Современные возможности Java — часть 2 из 2
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 40.
-> Область знаний: [../knowledge-base/09-modern-java-features.md](../knowledge-base/09-modern-java-features.md)
+> Область знаний: [../theory/01-knowledge-areas/01-language-and-platform/09-modern-java-features.md](../theory/01-knowledge-areas/01-language-and-platform/09-modern-java-features.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](modern-java-01.md) · **ч.2**
 

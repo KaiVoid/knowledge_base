@@ -55,7 +55,7 @@ class BuildTest(unittest.TestCase):
                          recursive=True)
         self.assertTrue(imgs, "нет картинок-оригиналов в dist/assets")
 
-    def test_jddoc_uses_relative_asset_urls(self):
+    def test_theorydoc_uses_relative_asset_urls(self):
         # в статике пути картинок относительные (assets/...), не /assets/...,
         # чтобы работать из подпути GitHub Pages
         found_rel = False

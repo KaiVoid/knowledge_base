@@ -1,7 +1,7 @@
 # Функциональное программирование и Stream API — часть 2 из 3
 
 > Вопросы 21–40 (в части: 20). Всего в разделе: 50.
-> Область знаний: [../knowledge-base/08-functional-streams.md](../knowledge-base/08-functional-streams.md)
+> Область знаний: [../theory/01-knowledge-areas/01-language-and-platform/08-functional-streams.md](../theory/01-knowledge-areas/01-language-and-platform/08-functional-streams.md)
 > Правила: [RULES.md](RULES.md)
 > Части: [ч.1](functional-streams-01.md) · **ч.2** · [ч.3](functional-streams-03.md)
 
