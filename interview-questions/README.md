@@ -74,4 +74,4 @@
 
 ---
 
-→ База знаний по предметным областям: [`../knowledge-base/README.md`](../knowledge-base/README.md)
+→ Теория: [`../theory/`](../theory/README.md)
