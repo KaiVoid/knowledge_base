@@ -1,7 +1,7 @@
 # Исключения и обработка ошибок
 
 > **Уровень:** Junior / Middle
-> **Связанные вопросы:** [Вопросы по исключениям →](../interview-questions/core-java/exceptions-01.md)
+> **Связанные вопросы:** [Вопросы по исключениям →](../../../interview-questions/core-java/exceptions-01.md)
 > **Связанные области:** [[01-core-java-syntax-oop]], [[07-io-nio]]
 
 ## Что это и зачем

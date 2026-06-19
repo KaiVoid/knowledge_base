@@ -1,7 +1,7 @@
 # Современные возможности Java (8 → 25)
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по новым фичам Java →](../interview-questions/modern-java-01.md)
+> **Связанные вопросы:** [Вопросы по новым фичам Java →](../../../interview-questions/modern-java-01.md)
 > **Связанные области:** [[08-functional-streams]], [[04-concurrency]], [[01-core-java-syntax-oop]]
 
 ## Что это и зачем

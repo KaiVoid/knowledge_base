@@ -1,7 +1,7 @@
 # Реляционные базы данных и SQL
 
 > **Уровень:** Junior / Middle / Senior
-> **Связанные вопросы:** [Вопросы по БД и SQL →](../interview-questions/databases-sql-01.md)
+> **Связанные вопросы:** [Вопросы по БД и SQL →](../../../interview-questions/databases-sql-01.md)
 > **Связанные области:** [[16-jpa-hibernate]], [[17-rest-web]]
 
 ## Что это и зачем

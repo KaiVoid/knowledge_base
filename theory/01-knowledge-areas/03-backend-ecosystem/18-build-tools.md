@@ -1,7 +1,7 @@
 # Системы сборки: Maven и Gradle
 
 > **Уровень:** Junior / Middle
-> **Связанные вопросы:** [Вопросы по Maven и Gradle →](../interview-questions/build-tools-01.md)
+> **Связанные вопросы:** [Вопросы по Maven и Gradle →](../../../interview-questions/build-tools-01.md)
 > **Связанные области:** [[14-spring-boot]], [[19-testing]]
 
 ## Что это и зачем

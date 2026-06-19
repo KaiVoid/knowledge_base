@@ -1,7 +1,7 @@
 # Spring Framework (Core, IoC, AOP)
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по Spring →](../interview-questions/spring-01.md)
+> **Связанные вопросы:** [Вопросы по Spring →](../../../interview-questions/spring-01.md)
 > **Связанные области:** [[14-spring-boot]], [[10-design-patterns]], [[16-jpa-hibernate]]
 
 ## Что это и зачем

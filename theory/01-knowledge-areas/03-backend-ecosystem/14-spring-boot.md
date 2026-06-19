@@ -1,7 +1,7 @@
 # Spring Boot
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по Spring Boot →](../interview-questions/spring-boot-01.md)
+> **Связанные вопросы:** [Вопросы по Spring Boot →](../../../interview-questions/spring-boot-01.md)
 > **Связанные области:** [[13-spring-core]], [[17-rest-web]], [[20-microservices]]
 
 ## Что это и зачем

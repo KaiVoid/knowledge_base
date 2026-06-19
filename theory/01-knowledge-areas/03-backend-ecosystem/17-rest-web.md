@@ -1,7 +1,7 @@
 # REST, HTTP и веб-слой
 
 > **Уровень:** Middle
-> **Связанные вопросы:** [Вопросы по REST и web →](../interview-questions/rest-web-01.md)
+> **Связанные вопросы:** [Вопросы по REST и web →](../../../interview-questions/rest-web-01.md)
 > **Связанные области:** [[14-spring-boot]], [[23-security]], [[20-microservices]]
 
 ## Что это и зачем

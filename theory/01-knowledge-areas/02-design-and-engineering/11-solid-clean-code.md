@@ -1,7 +1,7 @@
 # SOLID, чистый код и рефакторинг
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по SOLID и чистому коду →](../interview-questions/solid-clean-code-01.md)
+> **Связанные вопросы:** [Вопросы по SOLID и чистому коду →](../../../interview-questions/solid-clean-code-01.md)
 > **Связанные области:** [[10-design-patterns]], [[19-testing]]
 
 ## Что это и зачем

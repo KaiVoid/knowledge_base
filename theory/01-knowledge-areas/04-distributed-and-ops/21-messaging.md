@@ -1,7 +1,7 @@
 # Брокеры сообщений (Kafka, RabbitMQ)
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по брокерам сообщений →](../interview-questions/messaging-01.md)
+> **Связанные вопросы:** [Вопросы по брокерам сообщений →](../../../interview-questions/messaging-01.md)
 > **Связанные области:** [[20-microservices]], [[04-concurrency]]
 
 ## Что это и зачем

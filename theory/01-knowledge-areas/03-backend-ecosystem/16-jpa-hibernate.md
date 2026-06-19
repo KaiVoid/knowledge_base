@@ -1,7 +1,7 @@
 # JPA и Hibernate
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по JPA/Hibernate →](../interview-questions/jpa-hibernate-01.md)
+> **Связанные вопросы:** [Вопросы по JPA/Hibernate →](../../../interview-questions/jpa-hibernate-01.md)
 > **Связанные области:** [[15-databases-sql]], [[13-spring-core]]
 
 ## Что это и зачем

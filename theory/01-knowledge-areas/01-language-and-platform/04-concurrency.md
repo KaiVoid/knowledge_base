@@ -1,7 +1,7 @@
 # Многопоточность и concurrency
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по многопоточности →](../interview-questions/concurrency-01.md)
+> **Связанные вопросы:** [Вопросы по многопоточности →](../../../interview-questions/concurrency-01.md)
 > **Углублённо:** [Конкурентные коллекции (java.util.concurrent) →](04-concurrent-collections.md)
 > **Связанные области:** [[02-jvm-memory-gc]], [[03-collections]]
 

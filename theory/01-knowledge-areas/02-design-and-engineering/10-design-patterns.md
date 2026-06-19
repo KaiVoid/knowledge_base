@@ -1,7 +1,7 @@
 # Паттерны проектирования
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по паттернам →](../interview-questions/design-patterns-01.md)
+> **Связанные вопросы:** [Вопросы по паттернам →](../../../interview-questions/design-patterns-01.md)
 > **Связанные области:** [[11-solid-clean-code]], [[13-spring-core]]
 
 ## Что это и зачем

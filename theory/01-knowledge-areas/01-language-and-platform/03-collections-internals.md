@@ -2,7 +2,7 @@
 
 > **Уровень:** Middle / Senior
 > **Это углублённое дополнение к области** [[03-collections]] (обзор и иерархия — там).
-> **Связанные вопросы:** [Вопросы по коллекциям →](../interview-questions/collections-01.md)
+> **Связанные вопросы:** [Вопросы по коллекциям →](../../../interview-questions/collections-01.md)
 > **Связанные области:** [[02-jvm-memory-gc]], [[04-concurrency]], [[12-algorithms-data-structures]]
 
 ## Что это и зачем

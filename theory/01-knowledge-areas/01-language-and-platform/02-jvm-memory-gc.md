@@ -1,7 +1,7 @@
 # JVM, модель памяти и сборка мусора
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по JVM и GC →](../interview-questions/jvm-gc-01.md)
+> **Связанные вопросы:** [Вопросы по JVM и GC →](../../../interview-questions/jvm-gc-01.md)
 > **Связанные области:** [[04-concurrency]], [[01-core-java-syntax-oop]]
 
 ## Что это и зачем

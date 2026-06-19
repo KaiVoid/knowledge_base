@@ -1,7 +1,7 @@
 # Core Java: синтаксис и ООП
 
 > **Уровень:** Junior / Middle
-> **Связанные вопросы:** [Вопросы по Core Java →](../interview-questions/core-java/README.md)
+> **Связанные вопросы:** [Вопросы по Core Java →](../../../interview-questions/core-java/README.md)
 > **Связанные области:** [[05-generics]], [[06-exceptions]], [[09-modern-java-features]]
 
 ## Что это и зачем

@@ -1,7 +1,7 @@
 # Микросервисная архитектура
 
 > **Уровень:** Senior
-> **Связанные вопросы:** [Вопросы по микросервисам →](../interview-questions/microservices-01.md)
+> **Связанные вопросы:** [Вопросы по микросервисам →](../../../interview-questions/microservices-01.md)
 > **Связанные области:** [[14-spring-boot]], [[21-messaging]], [[22-containers-devops]]
 
 ## Что это и зачем

@@ -1,7 +1,7 @@
 # Контейнеры и DevOps (Docker, Kubernetes, CI/CD)
 
 > **Уровень:** Middle / Senior
-> **Связанные вопросы:** [Вопросы по контейнерам и DevOps →](../interview-questions/containers-devops-01.md)
+> **Связанные вопросы:** [Вопросы по контейнерам и DevOps →](../../../interview-questions/containers-devops-01.md)
 > **Связанные области:** [[20-microservices]], [[14-spring-boot]]
 
 ## Что это и зачем

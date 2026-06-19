@@ -1,7 +1,7 @@
 # Ввод-вывод: IO и NIO
 
 > **Уровень:** Middle
-> **Связанные вопросы:** [Вопросы по IO/NIO →](../interview-questions/io-nio-01.md)
+> **Связанные вопросы:** [Вопросы по IO/NIO →](../../../interview-questions/io-nio-01.md)
 > **Связанные области:** [[06-exceptions]], [[04-concurrency]]
 
 ## Что это и зачем

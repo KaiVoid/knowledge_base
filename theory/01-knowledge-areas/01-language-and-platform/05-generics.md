@@ -1,7 +1,7 @@
 # Generics (обобщения)
 
 > **Уровень:** Middle
-> **Связанные вопросы:** [Вопросы по generics →](../interview-questions/core-java/generics-01.md)
+> **Связанные вопросы:** [Вопросы по generics →](../../../interview-questions/core-java/generics-01.md)
 > **Связанные области:** [[01-core-java-syntax-oop]], [[03-collections]]
 
 ## Что это и зачем

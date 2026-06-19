@@ -1,7 +1,7 @@
 # Функциональное программирование и Stream API
 
 > **Уровень:** Middle
-> **Связанные вопросы:** [Вопросы по лямбдам и Stream API →](../interview-questions/functional-streams-01.md)
+> **Связанные вопросы:** [Вопросы по лямбдам и Stream API →](../../../interview-questions/functional-streams-01.md)
 > **Связанные области:** [[03-collections]], [[09-modern-java-features]]
 
 ## Что это и зачем

@@ -1,7 +1,7 @@
 # Collections Framework
 
 > **Уровень:** Junior / Middle
-> **Связанные вопросы:** [Вопросы по коллекциям →](../interview-questions/collections-01.md)
+> **Связанные вопросы:** [Вопросы по коллекциям →](../../../interview-questions/collections-01.md)
 > **Углублённо:** [Внутреннее устройство коллекций →](03-collections-internals.md)
 > **Связанные области:** [[05-generics]], [[04-concurrency]], [[12-algorithms-data-structures]]
 
