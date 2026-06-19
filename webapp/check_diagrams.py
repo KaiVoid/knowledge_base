@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Счётчик покрытия Mermaid-диаграмм директивами original в трейле java-docs.
+"""Счётчик покрытия Mermaid-диаграмм директивами original в трейле theory/02-java-docs.
 
 Использование: python3 check_diagrams.py <каталог-трейла>
 Код возврата 1, если есть Mermaid без директивы или отсутствующие картинки.

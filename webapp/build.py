@@ -65,7 +65,7 @@ def build(dist_dir=None):
         os.makedirs(os.path.join(dist, "vendor"), exist_ok=True)
         shutil.copy(src, os.path.join(dist, "vendor", "mermaid.min.js"))
 
-    # Оригиналы диаграмм: java-docs/assets -> dist/assets, чтобы относительные
+    # Оригиналы диаграмм: theory/02-java-docs/assets -> dist/assets, чтобы относительные
     # ссылки assets/... в уроках открывались на статическом сайте.
     assets_src = os.path.join(app.THEORY_DIR, "02-java-docs", "assets")
     if os.path.isdir(assets_src):
