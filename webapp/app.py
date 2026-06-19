@@ -527,7 +527,7 @@ PAGE = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>База знаний Java — вопросы и области</title>
+<title>База знаний — вопросы и области знаний</title>
 <style>
 :root{--bg:#f7f8fa;--panel:#fff;--ink:#1f2430;--muted:#6b7280;--line:#e5e7eb;
 --accent:#2563eb;--accent2:#1d4ed8;--jun:#16a34a;--mid:#d97706;--sen:#dc2626;}
@@ -700,10 +700,10 @@ html[data-theme="dark"] .rpanel-toggle:hover{background:#1c2742}
 </head>
 <body>
 <header>
-  <h1>База знаний Java</h1>
+  <h1>База знаний</h1>
   <div class="tabs">
     <div class="tab active" data-tab="q" onclick="setTab('q')">Вопросы</div>
-    <div class="tab" data-tab="kb" onclick="setTab('kb')">База знаний</div>
+    <div class="tab" data-tab="kb" onclick="setTab('kb')">Области знаний</div>
     <div class="tab" data-tab="jd" onclick="setTab('jd')">Java-документация</div>
   </div>
   <input id="search" placeholder="Поиск по вопросам и ответам…" oninput="onSearch()">
