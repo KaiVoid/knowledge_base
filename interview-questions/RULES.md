@@ -85,6 +85,22 @@ Boxing значений в диапазоне −128…127 кешируется,
 ---
 ```
 
+## Под-раздел «Вопросы с HH»
+
+Вопросы, перенесённые из репозитория
+[Londeren/hh-skill-verifications-quizzes](https://github.com/Londeren/hh-skill-verifications-quizzes),
+живут отдельным деревом `interview-questions/hh/<topic>/<level>/questions.md` и
+отличаются от остальных только тремя пунктами:
+
+- **Уровни англоязычные** — `Advanced` / `Intermediate` / `Basic` (в источнике так).
+- **Источник** — файл темы/уровня в репозитории HH (ветка `main`).
+- **Раскладка папками**: тема → уровень; имя файла `questions.md` (при разбиении —
+  `questions-NN.md` со сквозной нумерацией).
+
+В остальном — тот же шаблон: два блока (оригинал + ответ Claude), ≤20 вопросов в
+файле, сквозная нумерация внутри раздела. Готовый шаблон —
+[`../docs/templates/hh-question-template.md`](../docs/templates/hh-question-template.md).
+
 ---
 
 ← [Ко всем разделам вопросов](README.md) · [Правила проекта](../CLAUDE.md)

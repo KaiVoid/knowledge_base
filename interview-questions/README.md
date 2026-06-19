@@ -2,7 +2,7 @@
 
 Вопросы собраны из реальных интернет-источников (подборки вопросов с собеседований), переведены на русский, дедуплицированы. У каждого вопроса — две секции: **«Оригинальный ответ из интернета»** (со ссылкой на источник) и **«Ответ от Claude»** (выверенная по нескольким источникам версия). Правила формирования вопросов и шаблон — в [`RULES.md`](RULES.md).
 
-> **Всего: 1651 вопрос в 32 разделах.** Каждый файл содержит не более 20 вопросов; разделы разбиты на части `<раздел>-NN.md` со сквозной нумерацией.
+> **Всего: 1816 вопросов в 44 разделах.** Каждый файл содержит не более 20 вопросов; разделы разбиты на части `<раздел>-NN.md` со сквозной нумерацией.
 
 ## Фундамент языка и платформы
 
@@ -54,6 +54,23 @@
 | Безопасность приложений | [ч.1](security-01.md) · [ч.2](security-02.md) · [ч.3](security-03.md) | 60 |
 
 Шаблон новых задач LeetCode — [docs/templates/leetcode-task-template.md](../docs/templates/leetcode-task-template.md).
+
+## Вопросы с HH
+
+Перенесены из репозитория квизов проверки навыков HeadHunter
+([Londeren/hh-skill-verifications-quizzes](https://github.com/Londeren/hh-skill-verifications-quizzes)).
+Группа верхнего уровня в просмотрщике; внутри — темы, внутри тем — уровни
+(Advanced / Intermediate / Basic). Раскладка: `hh/<тема>/<уровень>/questions.md`.
+
+| Тема | Уровни (вопросов) | Всего |
+|------|-------------------|------:|
+| PostgreSQL | Advanced (15) | 15 |
+| Java | Advanced (15) · Intermediate (12) | 27 |
+| Docker | Advanced (15) · Intermediate (12) · Basic (10) | 37 |
+| OOP | Advanced (15) · Intermediate (12) · Basic (10) | 37 |
+| SQL | Advanced (27) · Intermediate (12) · Basic (10) | 49 |
+
+Шаблон вопросов раздела — [`../docs/templates/hh-question-template.md`](../docs/templates/hh-question-template.md).
 
 ---
 
