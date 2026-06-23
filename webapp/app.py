@@ -40,6 +40,9 @@ GROUPS = [
     ("Распределённые системы и эксплуатация",
      ["distributed-systems", "microservices", "quarkus", "messaging",
       "containers-devops", "security"]),
+    ("Разработка с ИИ",
+     ["ai-assisted-dev", "prompt-engineering", "llm-fundamentals", "rag",
+      "ai-agents", "mcp", "llm-safety-eval"]),
 ]
 LEVEL_ORDER = {"Junior": 0, "Middle": 1, "Senior": 2,
                "Easy": 3, "Medium": 4, "Hard": 5,
@@ -62,6 +65,7 @@ Q_GROUP_DESC = {
     "Проектирование и инженерная культура": "groups/02-design-and-engineering.md",
     "Backend-экосистема": "groups/03-backend-ecosystem.md",
     "Распределённые системы и эксплуатация": "groups/04-distributed-and-ops.md",
+    "Разработка с ИИ": "groups/05-ai-development.md",
     HH_GROUP_TITLE: "hh/README.md",
 }
 
